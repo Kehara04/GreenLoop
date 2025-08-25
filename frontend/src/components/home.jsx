@@ -116,7 +116,7 @@ export default function Home() {
               </div>
               <h3 className="font-bold text-gray-900 mb-3 text-lg">Waste Tracking</h3>
               <p className="text-sm text-gray-600 leading-relaxed">
-                Log waste by category, add photos, geolocation, and find nearby recycling centers that fit your criteria.
+                Log waste by category, add photos, geolocation and find nearby recycling centers that fit your criteria.
               </p>
             </div>
           </div>
