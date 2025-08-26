@@ -25,11 +25,12 @@ export default function Home() {
             
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-sm font-medium">
-                <a href="#" className="text-gray-700 hover:text-green-600 transition-colors">LOGIN</a>
+                <a href="/login" className="text-gray-700 hover:text-green-600 transition-colors">LOGIN</a>
                 <span className="text-gray-400">|</span>
-                <a href="#" className="text-gray-700 hover:text-green-600 transition-colors">SIGNUP</a>
+                <a href="/register" className="text-gray-700 hover:text-green-600 transition-colors">SIGNUP</a>
               </div>
-              <User className="w-6 h-6 text-gray-700" />
+              <a href="/profile"><User className="w-6 h-6 text-gray-700" /></a>
+              
             </div>
           </div>
         </div>
