@@ -188,6 +188,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import img2 from '../assets/background.jpg'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -251,18 +252,51 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-primary-900 mb-2">KHB Associates</h1>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">Welcome back</h2>
-          <p className="text-gray-600">Please sign in to your account</p>
+    <div 
+      className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-start py-12 px-4 sm:px-6 lg:px-8"
+      style={{
+        backgroundImage: `url(${img2})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Optional: Add an overlay for better text readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      
+      <div className="max-w-md w-full space-y-8 relative z-10 ml-8 sm:ml-12 lg:ml-16">
+        <div className="text-left">
+          <h1 
+            className="text-5xl font-bold mb-4 text-shadow-lg" 
+            style={{ 
+              color: '#184325',
+              textShadow: '2px 2px 4px rgba(255, 255, 255, 0.9), 0 0 10px rgba(255, 255, 255, 0.5)'
+            }}
+          >
+            Greeen Loop
+          </h1>
+          <h2 
+            className="text-3xl font-bold text-white mb-3 text-shadow-md" 
+            style={{
+              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)'
+            }}
+          >
+            Welcome back
+          </h2>
+          <p 
+            className="text-lg text-white font-medium"
+            style={{
+              textShadow: '1px 1px 2px rgba(0, 0, 0, 0.7)'
+            }}
+          >
+            Please sign in to your account
+          </p>
         </div>
 
         <div className="card p-8">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 text-left">
                 Email address
               </label>
               <div className="relative">
@@ -283,7 +317,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 text-left">
                 Password
               </label>
               <div className="relative">
@@ -314,11 +348,12 @@ const Login = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start">
               <div className="text-sm">
                 <Link
                   to="/forgot-password"
-                  className="font-medium text-primary-600 hover:text-primary-500"
+                  className="font-medium hover:opacity-80"
+                  style={{ color: '#184325' }}
                 >
                   Forgot your password?
                 </Link>
@@ -329,6 +364,10 @@ const Login = () => {
               type="submit"
               disabled={loading}
               className={`w-full btn-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              style={{ 
+                backgroundColor: '#184325',
+                borderColor: '#184325'
+              }}
             >
               {loading ? (
                 <div className="flex items-center justify-center">
@@ -346,15 +385,19 @@ const Login = () => {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
               </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
+              <div className="relative flex justify-start text-sm">
+                <span className="pr-2 bg-white text-gray-500">Don't have an account?</span>
               </div>
             </div>
 
             <div className="mt-6">
               <Link
                 to="/register"
-                className="w-full btn-secondary flex justify-center"
+                className="w-full btn-secondary flex justify-start pl-0"
+                style={{
+                  color: '#184325',
+                  borderColor: '#184325'
+                }}
               >
                 Create new account
               </Link>

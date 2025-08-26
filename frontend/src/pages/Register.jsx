@@ -288,6 +288,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { Eye, EyeOff, User, Mail, Lock, Phone, MapPin } from 'lucide-react';
+import img3 from '../assets/background.jpg';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -351,15 +352,26 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-primary-900 mb-2">KHB Associates</h1>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">Create your account</h2>
-          <p className="text-gray-600">Join us today and get started</p>
+    <div 
+      className="min-h-screen flex items-center justify-start py-12 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage: `url(${img3})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      {/* Optional overlay for better text readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      
+      <div className="relative z-10 max-w-md w-full ml-8 lg:ml-16">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold mb-2 text-white drop-shadow-lg" style={{ color: '#184325', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>Green Loop</h1>
+          <h2 className="text-2xl font-semibold text-white mb-2 drop-shadow-lg">Create your account</h2>
+          <p className="text-gray-100 drop-shadow-lg">Join us today and get started</p>
         </div>
 
-        <div className="card p-8">
+        <div className="card p-8 bg-white bg-opacity-95 backdrop-blur-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -529,6 +541,10 @@ const Register = () => {
               type="submit"
               disabled={loading}
               className={`w-full btn-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              style={{ 
+                backgroundColor: '#184325',
+                borderColor: '#184325'
+              }}
             >
               {loading ? (
                 <div className="flex items-center justify-center">
@@ -555,6 +571,10 @@ const Register = () => {
               <Link
                 to="/login"
                 className="w-full btn-secondary flex justify-center"
+                style={{
+                  color: '#184325',
+                  borderColor: '#184325'
+                }}
               >
                 Sign in instead
               </Link>

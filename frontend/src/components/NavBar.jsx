@@ -308,53 +308,40 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to={getRoleDashboard(user.role)} className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-primary-600">KHB Associates</h1>
+            <Link to="/home" className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-green-600">Green Loop</h1>
             </Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex md:items-center md:space-x-8">
             <Link
+              to="/"
+              className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Home
+            </Link>
+            
+            <Link
+              to="/recycle-store"
+              className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Recycle Store
+            </Link>
+
+            <Link
+              to="/recycle-form"
+              className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+            >
+              Recycle Form
+            </Link>
+
+            <Link
               to={getRoleDashboard(user.role)}
               className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               Dashboard
             </Link>
-            
-            {user.role === 'customer' && (
-              <>
-                <Link
-                  to="/orders"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Orders
-                </Link>
-                <Link
-                  to="/products"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Products
-                </Link>
-              </>
-            )}
-
-            {user.role === 'admin' && (
-              <>
-                <Link
-                  to="/users"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Users
-                </Link>
-                <Link
-                  to="/customers"
-                  className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Customers
-                </Link>
-              </>
-            )}
 
             {/* Profile Dropdown */}
             <div className="relative">
@@ -391,6 +378,7 @@ const Navbar = () => {
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                   >
+                    
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign out
                   </button>
@@ -415,50 +403,36 @@ const Navbar = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <Link
+                to="/home"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              
+              <Link
+                to="/recycle-store"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Recycle Store
+              </Link>
+
+              <Link
+                to="/recycle-form"
+                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Recycle Form
+              </Link>
+
+              <Link
                 to={getRoleDashboard(user.role)}
                 className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Dashboard
               </Link>
-              
-              {user.role === 'customer' && (
-                <>
-                  <Link
-                    to="/orders"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Orders
-                  </Link>
-                  <Link
-                    to="/products"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Products
-                  </Link>
-                </>
-              )}
-
-              {user.role === 'admin' && (
-                <>
-                  <Link
-                    to="/users"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Users
-                  </Link>
-                  <Link
-                    to="/customers"
-                    className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Customers
-                  </Link>
-                </>
-              )}
 
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex items-center px-3">

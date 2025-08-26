@@ -5,8 +5,8 @@ import img1 from '../assets/background-recycle.jpg';
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      {/* Header */} 
+      {/* <header className="bg-white shadow-sm border-b">
         <div className="w-full px-8 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -21,16 +21,15 @@ export default function Home() {
               <a href="#" className="text-gray-700 hover:text-green-600 font-medium">ABOUT</a>
               <a href="#" className="text-gray-700 hover:text-green-600 font-medium">EVENTS</a>
               <a href="#" className="text-gray-700 hover:text-green-600 font-medium">RECYCLE CENTERS</a>
-            </nav>
-            
+            </nav> */}
+{/*             
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-sm font-medium">
-                <a href="/login" className="text-gray-700 hover:text-green-600 transition-colors">LOGIN</a>
+                <a href="login" className="text-gray-700 hover:text-green-600 transition-colors">LOGIN</a>
                 <span className="text-gray-400">|</span>
-                <a href="/register" className="text-gray-700 hover:text-green-600 transition-colors">SIGNUP</a>
+                <a href="#" className="text-gray-700 hover:text-green-600 transition-colors">SIGNUP</a>
               </div>
-              <a href="/profile"><User className="w-6 h-6 text-gray-700" /></a>
-              
+              <User className="w-6 h-6 text-gray-700" />
             </div>
           </div>
         </div>
