@@ -1,9 +1,8 @@
 const jwt = require('jsonwebtoken');
 const emailSender = require('../utils/mailer');
-const Admin = require('../model/user');
+const Admin = require('../models/user');
 const bcrypt = require('bcryptjs'); 
 require("dotenv").config();
-
 
 exports.getAdmin = async(req,res) => {
     try {
