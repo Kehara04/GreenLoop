@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const upload = require("../middleware/uploadMiddleware");
+const upload = require("../middleware/updateMiddleware");
 const authMiddleware = require('../middleware/authMiddleware');
-const adminController = require('../controller/admin'); // Make sure the path is correct
+const adminController = require('../controllers/adminController'); // Make sure the path is correct
 
 // Define your routes
 router.get('/admins', adminController.getAdmin); 
