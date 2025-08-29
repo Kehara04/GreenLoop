@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken");
 const {sendVerificationEmail} = require("../utils/mailer");
 require("dotenv").config();
 
-
-
 exports.getCustomers = async (req, res) => {
     try {
         const customers = await Customer.find({role:'customer'});
