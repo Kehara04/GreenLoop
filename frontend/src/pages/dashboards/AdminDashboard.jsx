@@ -283,6 +283,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Users, ShoppingCart, Package, TrendingUp, Activity, UserCheck, AlertTriangle } from 'lucide-react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -457,9 +458,13 @@ const AdminDashboard = () => {
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-900">Recent Users</h2>
-              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                View all
-              </button>
+              <Link
+                to="/users"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+              >
+              View all
+             </Link>
+
             </div>
             <div className="space-y-4">
               {users.length > 0 ? users.map((userItem) => (

@@ -201,7 +201,7 @@ const Login = () => {
             <div className="mt-6 space-y-3">
               <Link
                 to="/register"
-                className="w-full btn-secondary flex justify-start pl-0"
+                className="w-full btn-secondary flex justify-center"
                 style={{
                   color: '#184325',
                   borderColor: '#184325'
@@ -211,10 +211,11 @@ const Login = () => {
               </Link>
               <Link
                 to="/register-recycle-centre"
-                className="w-full btn-secondary flex justify-start pl-0"
+                className="w-full btn-secondary flex justify-center"
                 style={{
                   color: '#184325',
-                  borderColor: '#184325'
+                  borderColor: '#184325',
+                  
                 }}
               >
                 Register as Recycle Centre
