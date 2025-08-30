@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { User, LogOut, Menu, X, Settings } from 'lucide-react';
+import img4 from '../assets/logo.png';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  // Check if we're on the home page
+  const isHomePage = location.pathname === '/';
 
   const handleLogout = () => {
     logout();
@@ -20,12 +25,12 @@ const Navbar = () => {
         return '/admin-dashboard';
       case 'customer':
         return '/customer-dashboard';
-      case 'inventory_manager':
-        return '/inventory-dashboard';
-      case 'customer_supporter':
-        return '/support-dashboard';
-      case 'deliver':
-        return '/deliver-dashboard';
+      // case 'inventory_manager':
+      //   return '/inventory-dashboard';
+      // case 'customer_supporter':
+      //   return '/support-dashboard';
+      // case 'deliver':
+      //   return '/deliver-dashboard';
       default:
         return '/dashboard';
     }
@@ -37,14 +42,43 @@ const Navbar = () => {
         return 'Admin';
       case 'customer':
         return 'Customer';
-      case 'inventory_manager':
-        return 'Inventory Manager';
-      case 'customer_supporter':
-        return 'Support Agent';
-      case 'deliver':
-        return 'Delivery Agent';
+      // case 'inventory_manager':
+      //   return 'Inventory Manager';
+      // case 'customer_supporter':
+      //   return 'Support Agent';
+      // case 'deliver':
+      //   return 'Delivery Agent';
       default:
         return 'User';
+    }
+  };
+
+  const handleAboutUsClick = (e) => {
+    e.preventDefault();
+    const currentPath = window.location.pathname;
+    
+    if (currentPath !== '/') {
+      // Navigate to home page first
+      navigate('/');
+      // Use a longer timeout and retry mechanism
+      const scrollToSection = () => {
+        const element = document.getElementById('why-choose-green-loop');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          // Retry after another 100ms if element not found
+          setTimeout(scrollToSection, 100);
+        }
+      };
+      setTimeout(scrollToSection, 300);
+    } else {
+      // Already on home page, just scroll
+      const element = document.getElementById('why-choose-green-loop');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        console.log('Element with id "why-choose-green-loop" not found');
+      }
     }
   };
 
@@ -53,9 +87,10 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0">
-              <h1 className="text-2xl font-bold text-green-600">Green Loop</h1>
-            </Link>
+          <Link to="/" className="flex-shrink-0 flex items-center">
+  <img src={img4} alt="Green Loop Logo" className="h-20 w-auto" />
+</Link>
+
           </div>
 
           {/* Desktop Menu */}
@@ -67,19 +102,16 @@ const Navbar = () => {
               Home
             </Link>
             
-            <a
-              href="#how-it-works"
-              className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              onClick={(e) => {
-                e.preventDefault();
-                const element = document.getElementById('how-it-works');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-            >
-              About Us
-            </a>
+            {/* Only show About Us on home page */}
+            {isHomePage && (
+              <a
+                href="#How-It-Works"
+                className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                onClick={handleAboutUsClick}
+              >
+                About Us
+              </a>
+            )}
             
             {user && (
               <>
@@ -190,20 +222,19 @@ const Navbar = () => {
                 Home
               </Link>
               
-              <a
-                href="#how-it-works"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMenuOpen(false);
-                  const element = document.getElementById('how-it-works');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-              >
-                About Us
-              </a>
+              {/* Only show About Us on home page in mobile menu too */}
+              {isHomePage && (
+                <a
+                  href="#why-choose-green-loop"
+                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                  onClick={(e) => {
+                    setIsMenuOpen(false);
+                    handleAboutUsClick(e);
+                  }}
+                >
+                  About Us
+                </a>
+              )}
               
               {user && (
                 <>

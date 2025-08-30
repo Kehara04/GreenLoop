@@ -159,7 +159,7 @@ export default function Home() {
           }}
         ></div>
         
-        {/* Decorative background elements */}
+        Decorative background elements
         <div className="absolute top-4 left-4 w-16 h-16 bg-green-300 rounded-full opacity-30"></div>
         <div className="absolute top-12 right-8 w-8 h-8 bg-green-200 rounded-full opacity-40"></div>
         <div className="absolute bottom-8 left-12 w-12 h-12 bg-green-300 rounded-full opacity-25"></div>

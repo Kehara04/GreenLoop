@@ -249,7 +249,7 @@
 // export default App;
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -271,7 +271,7 @@ import RecycleCentreDashboard from './pages/dashboards/RecycleCentreDashboard';
 import Profile from './pages/Profile';
 import UsersManagement from './pages/UsersManagement';
 
-//Home page
+// Home Page
 import Home from './components/home';
 
 // Utility Pages
@@ -305,95 +305,6 @@ const NotFound = () => (
   </div>
 );
 
-function App() {
-  return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/register-recycle-centre" element={<RecycleCentreRegister />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
-
-            {/* Protected Routes */}
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Navigate to="/dashboard" replace />
-              </ProtectedRoute>
-            } />
-
-            {/* Generic Dashboard Route */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardRedirect />
-              </ProtectedRoute>
-            } />
-
-            {/* Role-specific Dashboards */}
-            <Route path="/admin-dashboard" element={
-              <ProtectedRoute roles={['admin']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/customer-dashboard" element={
-              <ProtectedRoute roles={['customer']}>
-                <CustomerDashboard />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/recycle-centre-dashboard" element={
-              <ProtectedRoute roles={['recycleCentre']}>
-                <RecycleCentreDashboard />
-              </ProtectedRoute>
-            } />
-
-            {/* Other Protected Routes */}
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/users" element={
-              <ProtectedRoute roles={['admin']}>
-                <UsersManagement />
-              </ProtectedRoute>
-            } />
-
-            <Route path="/customers" element={
-              <ProtectedRoute roles={['admin']}>
-                <UsersManagement />
-              </ProtectedRoute>
-            } />
-
-            {/* Catch all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-
-          {/* Toast Notifications */}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-        </div>
-      </Router>
-    </AuthProvider>
-  );
-}
-
 // Component to redirect to appropriate dashboard based on user role
 const DashboardRedirect = () => {
   const { user } = useAuth();
@@ -412,4 +323,107 @@ const DashboardRedirect = () => {
   }
 };
 
+// Main content component to enable using hooks like useLocation
+const AppContent = () => {
+  const location = useLocation();
+  const hideNavbarPaths = ['/login', '/register', '/register-recycle-centre'];
+  const shouldHideNavbar = hideNavbarPaths.includes(location.pathname);
+
+  return (
+    <>
+      {!shouldHideNavbar && <Navbar />}
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/register-recycle-centre" element={<RecycleCentreRegister />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        {/* Protected Routes */}
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Navigate to="/dashboard" replace />
+          </ProtectedRoute>
+        } />
+
+        {/* Generic Dashboard Route */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardRedirect />
+          </ProtectedRoute>
+        } />
+
+        {/* Role-specific Dashboards */}
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute roles={['admin']}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/customer-dashboard" element={
+          <ProtectedRoute roles={['customer']}>
+            <CustomerDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/recycle-centre-dashboard" element={
+          <ProtectedRoute roles={['recycleCentre']}>
+            <RecycleCentreDashboard />
+          </ProtectedRoute>
+        } />
+
+        {/* Other Protected Routes */}
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/users" element={
+          <ProtectedRoute roles={['admin']}>
+            <UsersManagement />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/customers" element={
+          <ProtectedRoute roles={['admin']}>
+            <UsersManagement />
+          </ProtectedRoute>
+        } />
+
+        {/* Catch all route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+      {/* Toast Notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <AppContent />
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+}
+
 export default App;
+
