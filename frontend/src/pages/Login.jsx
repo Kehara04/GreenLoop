@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
-import img2 from '../assets/background.jpg'
+import img2 from '../assets/background1.png'
 
 const Login = () => {
   const [formData, setFormData] = useState({

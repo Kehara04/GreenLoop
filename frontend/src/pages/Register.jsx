@@ -288,7 +288,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-toastify';
 import { Eye, EyeOff, User, Mail, Lock, Phone, MapPin } from 'lucide-react';
-import img3 from '../assets/background.jpg';
+import img3 from '../assets/background1.png';
 
 const Register = () => {
   const [formData, setFormData] = useState({
