@@ -1,0 +1,65 @@
+const express = require('express');
+const router = express.Router();
+const recycleController = require('../controllers/recycleController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// Apply authentication middleware to all routes
+const userAuth = authMiddleware(['customer', 'admin']);
+const adminAuth = authMiddleware(['admin']); // For admin-only routes
+
+// @route   POST /api/recycle
+// @desc    Create new recycle form
+// @access  Private (authenticated users)
+router.post('/', userAuth, recycleController.createRecycleForm);
+
+// @route   GET /api/recycle
+// @desc    Get all recycle forms for logged-in user
+// @access  Private (authenticated users)
+router.get('/', userAuth, recycleController.getUserRecycleForms);
+
+// @route   GET /api/recycle/profile
+// @desc    Get user profile with total points from all submissions
+// @access  Private (authenticated users)
+router.get('/profile', userAuth, recycleController.getUserProfile);
+
+// @route   GET /api/recycle/districts
+// @desc    Get list of districts
+// @access  Private (authenticated users)
+router.get('/districts', userAuth, recycleController.getDistricts);
+
+// @route   GET /api/recycle/stats
+// @desc    Get user's recycling statistics with points
+// @access  Private (authenticated users)
+router.get('/stats', userAuth, recycleController.getUserStats);
+
+// @route   GET /api/recycle/points-history
+// @desc    Get user's points history
+// @access  Private (authenticated users)
+router.get('/points-history', userAuth, recycleController.getUserPointsHistory);
+
+// @route   POST /api/recycle/:id/award-points
+// @desc    Award points to user for completed form (manual)
+// @access  Private (authenticated users)
+router.post('/:id/award-points', userAuth, recycleController.awardPointsToUser);
+
+// @route   PUT /api/recycle/:id/status
+// @desc    Update form status (admin only) - auto-awards points when completed
+// @access  Private (admin only)
+router.put('/:id/status', adminAuth, recycleController.updateFormStatus);
+
+// @route   GET /api/recycle/:id
+// @desc    Get single recycle form by ID
+// @access  Private (authenticated users)
+router.get('/:id', userAuth, recycleController.getRecycleForm);
+
+// @route   PUT /api/recycle/:id
+// @desc    Update recycle form (only if status is pending)
+// @access  Private (authenticated users)
+router.put('/:id', userAuth, recycleController.updateRecycleForm);
+
+// @route   DELETE /api/recycle/:id
+// @desc    Delete recycle form (only if status is pending)
+// @access  Private (authenticated users)
+router.delete('/:id', userAuth, recycleController.deleteRecycleForm);
+
+module.exports = router;
