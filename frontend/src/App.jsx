@@ -26,6 +26,7 @@ import Home from './components/home';
 
 // NEW: Recycle System Pages
 import RecycleForm from './components/wasteManagement/pages/RecycleForm';
+import Reuse from './components/wasteManagement/pages/reuse';
 
 // Utility Pages
 const Unauthorized = () => (
@@ -132,6 +133,17 @@ const AppContent = () => {
             <RecycleForm />
           </ProtectedRoute>
         } />
+
+
+        
+
+        <Route path="/reuse" element={
+          <protectedROute roles={['customer', 'admin']}>
+            <Reuse />
+         
+          </protectedROute>
+        } />
+
 
         {/* Other Protected Routes */}
         <Route path="/profile" element={

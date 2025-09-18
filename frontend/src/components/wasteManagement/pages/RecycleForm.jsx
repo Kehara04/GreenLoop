@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Recycle, MapPin, Plus, Minus, FileText, Award, ArrowRight, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const RecycleSystem = () => {
   const [currentPage, setCurrentPage] = useState('form'); // 'form' or 'summary'
@@ -416,7 +417,10 @@ const handleSubmit = async () => {
           <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">What would you like to do next?</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <button className="p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all duration-200 group">
+          <button 
+              onClick={() => window.location.href = '/reuse'}
+              className="p-6 border-2 border-dashed border-gray-300 rounded-xl hover:border-green-400 hover:bg-green-50 transition-all duration-200 group"
+            >
               <div className="text-center">
                 <div className="text-4xl mb-3">♻️</div>
                 <h3 className="font-semibold text-gray-800 mb-2 group-hover:text-green-600">Reuse Ideas</h3>
