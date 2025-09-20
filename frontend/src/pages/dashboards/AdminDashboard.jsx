@@ -47,7 +47,7 @@ const AdminDashboard = () => {
         totalUsers: allUsers.length,
         totalClients: clients.length,
         activeUsers: allUsers.filter(u => u.userStatus === 'active').length,
-        totalRecycleRequests: recycleRequests.length || 342,
+        // totalRecycleRequests: recycleRequests.length || 342,
         totalWasteCollected: 2847, // kg - placeholder
         totalPointsAwarded: 15620, // placeholder
         totalCollectionStores: allUsers.filter(u => u.role === 'collection_store').length || 28,
@@ -70,14 +70,14 @@ const AdminDashboard = () => {
       change: '+12%',
       changeType: 'increase'
     },
-    {
-      name: 'Recycle Requests',
-      value: stats.totalRecycleRequests,
-      icon: Recycle,
-      color: 'text-blue-600 bg-blue-100',
-      change: '+25%',
-      changeType: 'increase'
-    },
+    // {
+    //   name: 'Recycle Requests',
+    //   value: stats.totalRecycleRequests,
+    //   icon: Recycle,
+    //   color: 'text-blue-600 bg-blue-100',
+    //   change: '+25%',
+    //   changeType: 'increase'
+    // },
     {
       name: 'Waste Collected (kg)',
       value: `${stats.totalWasteCollected}kg`,
