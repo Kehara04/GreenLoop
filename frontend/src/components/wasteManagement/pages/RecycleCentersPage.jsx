@@ -470,6 +470,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { MapPin, Phone, Globe, Mail, ArrowLeft, Building, Recycle, Star } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import img9 from '../../../assets/background1.png';
 
 const RecycleCentersPage = () => {
   const navigate = useNavigate();
@@ -549,123 +550,153 @@ const RecycleCentersPage = () => {
     : 'All Recycle Centers';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 p-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex items-center mb-6">
-          <button
-            onClick={() => navigate(-1)}
-            className="mr-3 px-3 py-2 border rounded-lg bg-white hover:bg-gray-50"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </button>
-          <h1 className="text-2xl font-bold text-gray-800">{title}</h1>
-        </div>
-
-        {loading && (
-          <div className="bg-white rounded-xl shadow p-6">Loading centres…</div>
-        )}
-
-        {!loading && error && (
-          <div className="bg-red-100 border border-red-300 rounded-xl p-4 text-red-700">
-            {error}
-          </div>
-        )}
-
-        {!loading && !error && centers.length === 0 && (
-          <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-700">
-              No centres found for this area. Try checking all centres.
-            </p>
+    <div
+      className="min-h-screen py-8 relative"
+      style={{
+        backgroundImage: `url(${img9})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      
+      {/* Content container with relative positioning to appear above overlay */}
+      <div className="relative z-10 p-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center mb-6">
             <button
-              onClick={() => navigate('/recycle-centers')}
-              className="mt-3 px-4 py-2 bg-green-600 text-white rounded"
+              onClick={() => navigate(-1)}
+              className="mr-3 px-3 py-2 border rounded-lg bg-white hover:bg-gray-50 transition-colors shadow-sm"
             >
-              View All Centres
+              <ArrowLeft className="w-4 h-4" />
             </button>
+            <h1 className="text-2xl font-bold text-white drop-shadow-lg">{title}</h1>
           </div>
-        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {centers.map((c) => (
-            <div key={c.recycleCentre_id || c._id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden">
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex items-center">
-                    <div className="bg-green-100 p-2 rounded-lg mr-3">
-                      <Building className="w-5 h-5 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">{c.name}</h3>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        {c.location?.city && c.location?.district
-                          ? `${c.location.city.charAt(0).toUpperCase() + c.location.city.slice(1)}, ${c.location.district.charAt(0).toUpperCase() + c.location.district.slice(1)}`
-                          : 'Location not specified'}
-                      </div>
-                    </div>
-                  </div>
-
-                  {typeof c.matchPercentage === 'number' && (
-                    <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      c.matchPercentage >= 80 ? 'bg-green-100 text-green-800'
-                      : c.matchPercentage >= 60 ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-gray-100 text-gray-800'}`}>
-                      <Star className="w-3 h-3 mr-1" />
-                      {c.matchPercentage}% Match
-                    </div>
-                  )}
-                </div>
-
-                {c.address && (
-                  <p className="text-gray-600 text-sm mb-3">{c.address}</p>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700 mb-3">
-                  {c.contactNumber && (
-                    <div className="flex items-center">
-                      <Phone className="w-4 h-4 mr-2 text-green-600" />
-                      <a href={`tel:${c.contactNumber}`} className="hover:text-green-600">{c.contactNumber}</a>
-                    </div>
-                  )}
-                  {c.email && (
-                    <div className="flex items-center">
-                      <Mail className="w-4 h-4 mr-2 text-green-600" />
-                      <a href={`mailto:${c.email}`} className="hover:text-green-600">{c.email}</a>
-                    </div>
-                  )}
-                  {c.website && (
-                    <div className="md:col-span-2 flex items-center">
-                      <Globe className="w-4 h-4 mr-2 text-green-600" />
-                      <a
-                        href={c.website.startsWith('http') ? c.website : `https://${c.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-green-600 truncate"
-                      >
-                        {c.website}
-                      </a>
-                    </div>
-                  )}
-                </div>
-
-                {Array.isArray(c.acceptedItems) && c.acceptedItems.length > 0 && (
-                  <>
-                    <h4 className="text-sm font-medium text-gray-800 mb-2 flex items-center">
-                      <Recycle className="w-4 h-4 mr-1 text-green-600" />
-                      Accepted Items
-                    </h4>
-                    <div className="flex flex-wrap gap-1">
-                      {c.acceptedItems.slice(0, 8).map((item, i) => (
-                        <span key={i} className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full border border-green-200">
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                )}
+          {loading && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mr-3"></div>
+                <span>Loading centres…</span>
               </div>
             </div>
-          ))}
+          )}
+
+          {!loading && error && (
+            <div className="bg-red-100 border border-red-300 rounded-xl p-4 text-red-700 shadow-lg">
+              {error}
+            </div>
+          )}
+
+          {!loading && !error && centers.length === 0 && (
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <p className="text-gray-700 mb-3">
+                No centres found for this area. Try checking all centres.
+              </p>
+              <button
+                onClick={() => navigate('/recycle-centers')}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+              >
+                View All Centres
+              </button>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {centers.map((c) => (
+              <div key={c.recycleCentre_id || c._id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden backdrop-blur-sm">
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center">
+                      <div className="bg-green-100 p-2 rounded-lg mr-3">
+                        <Building className="w-5 h-5 text-green-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold text-gray-800">{c.name}</h3>
+                        <div className="flex items-center text-sm text-gray-600">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {c.location?.city && c.location?.district
+                            ? `${c.location.city.charAt(0).toUpperCase() + c.location.city.slice(1)}, ${c.location.district.charAt(0).toUpperCase() + c.location.district.slice(1)}`
+                            : 'Location not specified'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {typeof c.matchPercentage === 'number' && (
+                      <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        c.matchPercentage >= 80 ? 'bg-green-100 text-green-800'
+                        : c.matchPercentage >= 60 ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-gray-100 text-gray-800'}`}>
+                        <Star className="w-3 h-3 mr-1" />
+                        {c.matchPercentage}% Match
+                      </div>
+                    )}
+                  </div>
+
+                  {c.address && (
+                    <p className="text-gray-600 text-sm mb-3">{c.address}</p>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700 mb-3">
+                    {c.contactNumber && (
+                      <div className="flex items-center">
+                        <Phone className="w-4 h-4 mr-2 text-green-600" />
+                        <a href={`tel:${c.contactNumber}`} className="hover:text-green-600 transition-colors">{c.contactNumber}</a>
+                      </div>
+                    )}
+                    {c.email && (
+                      <div className="flex items-center">
+                        <Mail className="w-4 h-4 mr-2 text-green-600" />
+                        <a href={`mailto:${c.email}`} className="hover:text-green-600 transition-colors">{c.email}</a>
+                      </div>
+                    )}
+                    {c.website && (
+                      <div className="md:col-span-2 flex items-center">
+                        <Globe className="w-4 h-4 mr-2 text-green-600" />
+                        <a
+                          href={c.website.startsWith('http') ? c.website : `https://${c.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-green-600 transition-colors truncate"
+                        >
+                          {c.website}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+
+                  {Array.isArray(c.acceptedItems) && c.acceptedItems.length > 0 && (
+                    <>
+                      <h4 className="text-sm font-medium text-gray-800 mb-2 flex items-center">
+                        <Recycle className="w-4 h-4 mr-1 text-green-600" />
+                        Accepted Items
+                      </h4>
+                      <div className="flex flex-wrap gap-1">
+                        {c.acceptedItems.slice(0, 8).map((item, i) => (
+                          <span key={i} className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full border border-green-200">
+                            {item}
+                          </span>
+                        ))}
+                        {c.acceptedItems.length > 8 && (
+                          <span className="px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded-full border border-gray-200">
+                            +{c.acceptedItems.length - 8} more
+                          </span>
+                        )}
+                        {c.acceptedItems.length > 8 && (
+                          <span className="px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded-full border border-gray-200">
+                            +{c.acceptedItems.length - 8} more
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
