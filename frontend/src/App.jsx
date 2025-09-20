@@ -27,6 +27,7 @@ import Home from './components/home';
 // NEW: Recycle System Pages
 import RecycleForm from './components/wasteManagement/pages/RecycleForm';
 import Reuse from './components/wasteManagement/pages/reuse';
+import RecycleCentersPage from './components/wasteManagement/pages/RecycleCentersPage';
 
 // Utility Pages
 const Unauthorized = () => (
@@ -139,6 +140,12 @@ const AppContent = () => {
     <RecycleForm />
   </ProtectedRoute>
 } />
+
+{/* IMPORTANT: This route name should match what you use in navigate() */}
+<Route path="/recycle-centers" element={<RecycleCentersPage />} />
+          
+          {/* Alternative route names (if you want to support both) */}
+          <Route path="/recycle-centres" element={<RecycleCentersPage />} />
 
         
 
