@@ -116,7 +116,7 @@ const Navbar = () => {
             {user && (
               <>
                 <Link
-                  to="/recycle-store"
+                  to="/recycle-centers"
                   className="text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 >
                   Recycle Store
@@ -239,7 +239,7 @@ const Navbar = () => {
               {user && (
                 <>
                   <Link
-                    to="/recycle-store"
+                    to="/"
                     className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMenuOpen(false)}
                   >

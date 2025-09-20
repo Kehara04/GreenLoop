@@ -50,6 +50,12 @@ router.post("/email", recycleCentreController.getRecycleCentreByEmail);
 // Registration route (public)
 router.post("/signup", recycleCentreController.addRecycleCentre);
 
+// NEW: Get centres by area (district/city)
+router.get("/by-area", recycleCentreController.getCentresByArea);
+
+// NEW: Get suggested centres based on recycle form data
+router.post("/suggest", recycleCentreController.getSuggestedCentres);
+
 // Restricted routes (admin & recycleCentre only)
 router.put("/update", authMiddleware(["admin", "recycleCentre"]), recycleCentreController.updateRecycleCentre);
 router.put("/update-password", authMiddleware(["admin", "recycleCentre"]), recycleCentreController.updatePassword);
