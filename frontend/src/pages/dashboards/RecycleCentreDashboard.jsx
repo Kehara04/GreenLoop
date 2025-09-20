@@ -359,153 +359,195 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Building, MapPin, Phone, Mail, Globe, Package } from 'lucide-react';
+import img8 from '../../assets/background1.png';
 
 const RecycleCentreDashboard = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Recycle Centre Dashboard</h1>
-          <p className="text-gray-600 mt-2">Welcome back, {user?.name || 'Recycle Centre'}</p>
-        </div>
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${img8})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Centre Information Card */}
-          <div className="lg:col-span-2">
-            <div className="card p-6">
-              <div className="flex items-center mb-6">
-                <Building className="h-8 w-8 text-green-600 mr-3" />
-                <h2 className="text-2xl font-semibold text-gray-800">Centre Information</h2>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <Building className="h-5 w-5 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <p className="font-medium text-gray-700">Centre Name</p>
-                    <p className="text-gray-600">{user?.name || 'N/A'}</p>
-                  </div>
+      {/* Custom CSS for floating animations */}
+      <style jsx>{`
+        /* Floating eco shapes */
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating:nth-child(odd) { animation-delay: -2s; }
+        .floating:nth-child(even) { animation-delay: -4s; }
+        @keyframes float {
+          0%,100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+      `}</style>
+
+      {/* Decorative floating elements */}
+      <div className="absolute top-4 left-4 w-16 h-16 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute top-12 right-8 w-8 h-8 bg-green-200 rounded-full opacity-15 floating"></div>
+      <div className="absolute bottom-8 left-12 w-12 h-12 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute bottom-4 right-16 w-6 h-6 bg-green-200 rounded-full opacity-20 floating"></div>
+
+      {/* Background SVG patterns */}
+      <svg className="absolute top-10 left-10 w-40 h-40 text-green-700 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C8 6 2 9 2 15a10 10 0 0020 0c0-6-6-9-10-13z" />
+      </svg>
+      <svg className="absolute bottom-10 right-20 w-56 h-56 text-green-600 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+      </svg>
+
+      {/* Main content with relative positioning to appear above overlay */}
+      <div className="relative z-10 min-h-screen py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-white">Recycle Centre Dashboard</h1>
+            <p className="text-gray-200 mt-2">Welcome back, {user?.name || 'Recycle Centre'}</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Centre Information Card */}
+            <div className="lg:col-span-2">
+              <div className="card p-6">
+                <div className="flex items-center mb-6">
+                  <Building className="h-8 w-8 text-green-600 mr-3" />
+                  <h2 className="text-2xl font-semibold text-gray-800">Centre Information</h2>
                 </div>
                 
-                <div className="flex items-start">
-                  <Mail className="h-5 w-5 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <p className="font-medium text-gray-700">Email</p>
-                    <p className="text-gray-600">{user?.email || 'N/A'}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <Phone className="h-5 w-5 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <p className="font-medium text-gray-700">Contact Number</p>
-                    <p className="text-gray-600">{user?.contactNumber || 'N/A'}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <p className="font-medium text-gray-700">Address</p>
-                    <p className="text-gray-600">{user?.address || 'N/A'}</p>
-                  </div>
-                </div>
-                
-                {user?.website && (
+                <div className="space-y-4">
                   <div className="flex items-start">
-                    <Globe className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                    <Building className="h-5 w-5 text-gray-400 mr-3 mt-1" />
                     <div>
-                      <p className="font-medium text-gray-700">Website</p>
-                      <a 
-                        href={user.website} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 underline"
-                      >
-                        {user.website}
-                      </a>
+                      <p className="font-medium text-gray-700">Centre Name</p>
+                      <p className="text-gray-600">{user?.name || 'N/A'}</p>
                     </div>
                   </div>
-                )}
-                
-                <div className="flex items-start">
-                  <Package className="h-5 w-5 text-gray-400 mr-3 mt-1" />
-                  <div>
-                    <p className="font-medium text-gray-700">Accepted Items</p>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {user?.acceptedItems && user.acceptedItems.length > 0 ? (
-                        user.acceptedItems.map((item, index) => (
-                          <span 
-                            key={index}
-                            className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
-                          >
-                            {item}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-gray-500">No items specified</span>
-                      )}
+                  
+                  <div className="flex items-start">
+                    <Mail className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                    <div>
+                      <p className="font-medium text-gray-700">Email</p>
+                      <p className="text-gray-600">{user?.email || 'N/A'}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <Phone className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                    <div>
+                      <p className="font-medium text-gray-700">Contact Number</p>
+                      <p className="text-gray-600">{user?.contactNumber || 'N/A'}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <MapPin className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                    <div>
+                      <p className="font-medium text-gray-700">Address</p>
+                      <p className="text-gray-600">{user?.address || 'N/A'}</p>
+                    </div>
+                  </div>
+                  
+                  {user?.website && (
+                    <div className="flex items-start">
+                      <Globe className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                      <div>
+                        <p className="font-medium text-gray-700">Website</p>
+                        <a 
+                          href={user.website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 underline"
+                        >
+                          {user.website}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-start">
+                    <Package className="h-5 w-5 text-gray-400 mr-3 mt-1" />
+                    <div>
+                      <p className="font-medium text-gray-700">Accepted Items</p>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {user?.acceptedItems && user.acceptedItems.length > 0 ? (
+                          user.acceptedItems.map((item, index) => (
+                            <span 
+                              key={index}
+                              className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm"
+                            >
+                              {item}
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-gray-500">No items specified</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Quick Actions Card */}
-          <div className="lg:col-span-1">
-            <div className="card p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-              <div className="space-y-3">
-                <button className="w-full btn-primary" style={{ backgroundColor: '#184325' }}>
-                  Update Centre Info
-                </button>
-                <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
-                  View Requests
-                </button>
-                <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
-                  Manage Inventory
-                </button>
-                <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
-                  Generate Reports
-                </button>
+            {/* Quick Actions Card */}
+            <div className="lg:col-span-1">
+              <div className="card p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
+                <div className="space-y-3">
+                  <button className="w-full btn-primary" style={{ backgroundColor: '#184325' }}>
+                    Update Centre Info
+                  </button>
+                  <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
+                    View Requests
+                  </button>
+                  <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
+                    Manage Inventory
+                  </button>
+                  <button className="w-full btn-secondary" style={{ color: '#184325', borderColor: '#184325' }}>
+                    Generate Reports
+                  </button>
+                </div>
+              </div>
+
+              {/* Location Card */}
+              <div className="card p-6 mt-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">Location</h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">
+                    <span className="font-medium">Latitude:</span> {user?.location?.lat || 'N/A'}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-medium">Longitude:</span> {user?.location?.lng || 'N/A'}
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Location Card */}
-            <div className="card p-6 mt-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Location</h3>
-              <div className="space-y-2">
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Latitude:</span> {user?.location?.lat || 'N/A'}
-                </p>
-                <p className="text-sm text-gray-600">
-                  <span className="font-medium">Longitude:</span> {user?.location?.lng || 'N/A'}
-                </p>
-              </div>
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            <div className="card p-6 text-center">
+              <div className="text-3xl font-bold text-green-600">0</div>
+              <div className="text-gray-600 mt-2">Active Requests</div>
             </div>
-          </div>
-        </div>
-
-        {/* Statistics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
-          <div className="card p-6 text-center">
-            <div className="text-3xl font-bold text-green-600">0</div>
-            <div className="text-gray-600 mt-2">Active Requests</div>
-          </div>
-          <div className="card p-6 text-center">
-            <div className="text-3xl font-bold text-blue-600">0</div>
-            <div className="text-gray-600 mt-2">Completed Today</div>
-          </div>
-          <div className="card p-6 text-center">
-            <div className="text-3xl font-bold text-orange-600">0</div>
-            <div className="text-gray-600 mt-2">Total Collections</div>
-          </div>
-          <div className="card p-6 text-center">
-            <div className="text-3xl font-bold text-purple-600">0</div>
-            <div className="text-gray-600 mt-2">Items Processed</div>
+            <div className="card p-6 text-center">
+              <div className="text-3xl font-bold text-blue-600">0</div>
+              <div className="text-gray-600 mt-2">Completed Today</div>
+            </div>
+            <div className="card p-6 text-center">
+              <div className="text-3xl font-bold text-orange-600">0</div>
+              <div className="text-gray-600 mt-2">Total Collections</div>
+            </div>
+            <div className="card p-6 text-center">
+              <div className="text-3xl font-bold text-purple-600">0</div>
+              <div className="text-gray-600 mt-2">Items Processed</div>
+            </div>
           </div>
         </div>
       </div>

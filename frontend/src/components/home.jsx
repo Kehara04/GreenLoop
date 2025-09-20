@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { User, Gift, BarChart3, Recycle, Facebook, Twitter, Instagram } from 'lucide-react';
+import { User, Gift, BarChart3, Recycle, Facebook, Twitter, Instagram, Leaf, MapPin, Phone, Mail } from 'lucide-react';
 import img1 from '../assets/background-recycle.jpg';
 import logo from '../assets/logo.png';
 
@@ -76,6 +76,26 @@ export default function Home() {
         @keyframes float {
           0%,100% { transform: translateY(0px); }
           50% { transform: translateY(-12px); }
+        }
+
+        /* Enhanced footer animations */
+        .pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.3); }
+          50% { box-shadow: 0 0 30px rgba(74, 222, 128, 0.6); }
+        }
+
+        .gradient-text {
+          background: linear-gradient(45deg, #10b981, #34d399, #6ee7b7);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
         }
       `}</style>
 
@@ -202,10 +222,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Enhanced Footer */}
       <AnimatedSection animation="fade-up">
-        <footer className="bg-gradient-to-b from-green-950 to-black text-white py-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <footer className="relative bg-gradient-to-b from-green-950 to-black text-white py-16 shadow-2xl border-t-4 border-green-400">
+          {/* Glowing top border effect */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 via-emerald-400 to-green-400 shadow-lg shadow-green-400/50"></div>
+          
+          {/* Floating background elements for emphasis */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-green-400 rounded-full floating shadow-xl shadow-green-400/30"></div>
+            <div className="absolute bottom-20 right-16 w-24 h-24 bg-emerald-400 rounded-full floating shadow-xl shadow-emerald-400/30"></div>
+            <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-green-300 rounded-full floating shadow-lg shadow-green-300/30"></div>
+            <div className="absolute bottom-32 left-20 w-20 h-20 bg-emerald-300 rounded-full floating shadow-lg shadow-emerald-300/30"></div>
+          </div>
+
+          {/* Enhanced gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-green-950/20 to-transparent"></div>
+          
+          {/* Spotlight effect */}
+          <div className="absolute inset-0 bg-gradient-radial from-green-900/30 via-transparent to-transparent"></div>
+
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
               {/* Logo and Description */}
               <div className="md:col-span-1">
@@ -213,9 +250,9 @@ export default function Home() {
                   <img 
                     src={logo} 
                     alt="Green Loop Logo" 
-                    className="w-12 h-12 object-contain"
+                    className="w-12 h-12 object-contain drop-shadow-lg"
                   />
-                  <span className="ml-3 text-2xl font-bold text-green-400">GREEN LOOP</span>
+                  <span className="ml-3 text-2xl font-bold text-green-400 drop-shadow-md">GREEN LOOP</span>
                 </div>
                 <p className="text-green-200 leading-relaxed">
                   A community-driven recycling platform designed to promote environmental sustainability and support a cleaner future.
@@ -226,10 +263,10 @@ export default function Home() {
               <div>
                 <h4 className="font-semibold mb-4 text-lg text-green-400">Quick Links</h4>
                 <div className="space-y-3">
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Home</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">About</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Events</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Stores</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Home</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">About</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Events</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Stores</a>
                 </div>
               </div>
 
@@ -237,22 +274,22 @@ export default function Home() {
               <div>
                 <h4 className="font-semibold mb-4 text-lg text-green-400">Support</h4>
                 <div className="space-y-3 mb-6">
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Help Center</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Contact Us</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Privacy Policy</a>
-                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200">Terms of Service</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Help Center</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Contact Us</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Privacy Policy</a>
+                  <a href="#" className="block text-green-300 hover:text-white transition-colors duration-200 hover:translate-x-1">Terms of Service</a>
                 </div>
                 
                 <div>
                   <h5 className="font-semibold mb-3 text-green-400">Follow Us</h5>
                   <div className="flex space-x-4">
-                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700">
+                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700 shadow-lg hover:shadow-green-400/50">
                       <Instagram className="w-5 h-5" />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700">
+                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700 shadow-lg hover:shadow-green-400/50">
                       <Facebook className="w-5 h-5" />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700">
+                    <a href="#" className="w-10 h-10 bg-green-800/50 rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-300 hover:scale-110 border border-green-700 shadow-lg hover:shadow-green-400/50">
                       <Twitter className="w-5 h-5" />
                     </a>
                   </div>
@@ -260,9 +297,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Bottom Border */}
-            <div className="border-t border-green-800 mt-8 pt-6 text-center">
-              <p className="text-green-400 text-sm">
+            {/* Bottom Border with enhanced styling */}
+            <div className="border-t-2 border-green-800 mt-8 pt-6 text-center relative">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-1 bg-green-400 rounded-full shadow-lg shadow-green-400/50"></div>
+              <p className="text-green-400 text-sm font-medium">
                 © 2024 Green Loop. All rights reserved.
               </p>
             </div>
