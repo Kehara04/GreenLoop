@@ -48,47 +48,47 @@ const RecycleSystem = () => {
     setCurrentPage(newPage);
   }, [location.pathname]);
 
-  const districts = [
-    'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo',
-    'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara',
-    'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar',
-    'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya',
-    'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'
-  ];
+// //   const districts = [
+// //     'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo',
+// //     'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara',
+// //     'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar',
+// //     'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya',
+// //     'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'
+// //   ];
 
-  const categoryDetails = {
-    metal: { label: 'Metal', icon: '🔧', color: 'bg-gray-100', description: 'Cans, metal scraps' },
-    plastic: { label: 'Plastic', icon: '🥤', color: 'bg-blue-100', description: 'Bottles, containers' },
-    polythene: { label: 'Polythene', icon: '🛍️', color: 'bg-purple-100', description: 'Shopping bags, covers' },
-    eWaste: { label: 'E-Waste', icon: '📱', color: 'bg-red-100', description: 'Electronics, gadgets' },
-    clothes: { label: 'Clothes', icon: '👕', color: 'bg-pink-100', description: 'Old garments, fabric' },
-    paper: { label: 'Paper', icon: '📄', color: 'bg-yellow-100', description: 'Newspapers, documents' },
-    regiform: { label: 'Regiform', icon: '🧊', color: 'bg-cyan-100', description: 'Foam materials' }
-  };
+// //   const categoryDetails = {
+// //     metal: { label: 'Metal', icon: '🔧', color: 'bg-gray-100', description: 'Cans, metal scraps' },
+// //     plastic: { label: 'Plastic', icon: '🥤', color: 'bg-blue-100', description: 'Bottles, containers' },
+// //     polythene: { label: 'Polythene', icon: '🛍️', color: 'bg-purple-100', description: 'Shopping bags, covers' },
+// //     eWaste: { label: 'E-Waste', icon: '📱', color: 'bg-red-100', description: 'Electronics, gadgets' },
+// //     clothes: { label: 'Clothes', icon: '👕', color: 'bg-pink-100', description: 'Old garments, fabric' },
+// //     paper: { label: 'Paper', icon: '📄', color: 'bg-yellow-100', description: 'Newspapers, documents' },
+// //     regiform: { label: 'Regiform', icon: '🧊', color: 'bg-cyan-100', description: 'Foam materials' }
+// //   };
 
-  const updateQuantity = (category, change) => {
-    setFormData(prev => ({
-      ...prev,
-      categories: {
-        ...prev.categories,
-        [category]: Math.max(0, prev.categories[category] + change)
-      }
-    }));
-  };
+// //   const updateQuantity = (category, change) => {
+// //     setFormData(prev => ({
+// //       ...prev,
+// //       categories: {
+// //         ...prev.categories,
+// //         [category]: Math.max(0, prev.categories[category] + change)
+// //       }
+// //     }));
+// //   };
 
-  const handleLocationChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        [field]: value
-      }
-    }));
-  };
+// //   const handleLocationChange = (field, value) => {
+// //     setFormData(prev => ({
+// //       ...prev,
+// //       location: {
+// //         ...prev.location,
+// //         [field]: value
+// //       }
+// //     }));
+// //   };
 
-  const getTotalQuantity = () => {
-    return Object.values(formData.categories).reduce((sum, qty) => sum + qty, 0);
-  };
+// //   const getTotalQuantity = () => {
+// //     return Object.values(formData.categories).reduce((sum, qty) => sum + qty, 0);
+// //   };
 
   const getPointsEarned = () => {
     return getTotalQuantity(); // 1 point per unit as per backend logic
@@ -147,19 +147,8 @@ const RecycleSystem = () => {
 
   const resetForm = () => {
     setFormData({
-      categories: {
-        metal: 0,
-        plastic: 0,
-        polythene: 0,
-        eWaste: 0,
-        clothes: 0,
-        paper: 0,
-        regiform: 0
-      },
-      location: {
-        district: '',
-        city: ''
-      },
+      categories: { metal: 0, plastic: 0, polythene: 0, eWaste: 0, clothes: 0, paper: 0, regiform: 0 },
+      location: { district: '', city: '' },
       notes: ''
     });
     setSubmittedData(null);
