@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import img2 from '../../assets/background1.png';
 import { 
   Recycle, 
   Leaf, 
@@ -47,7 +48,7 @@ const CustomerDashboard = () => {
       name: 'Items Recycled',
       value: '47',
       icon: Recycle,
-      color: 'text-blue-600 bg-blue-100',
+      color: 'text-green-600 bg-green-100',
       change: '+8',
       changeType: 'increase',
       unit: 'items'
@@ -56,16 +57,16 @@ const CustomerDashboard = () => {
       name: 'CO₂ Saved',
       value: '125',
       icon: Wind,
-      color: 'text-purple-600 bg-purple-100',
+      color: 'text-green-600 bg-green-100',
       change: '+15kg',
       changeType: 'increase',
       unit: 'kg'
     },
     {
       name: 'Eco Level',
-      value: user?.user_level || 'Green Guardian',
+      value:  'Beginner Recycler',
       icon: Award,
-      color: getUserLevelColor(user?.user_level),
+      color: 'text-green-600 bg-green-100',
       change: '',
       changeType: 'neutral'
     }
@@ -103,32 +104,32 @@ const CustomerDashboard = () => {
 
   const badges = [
     {
-      name: 'Recycling Hero',
-      description: 'Recycled 50+ items',
+      name: 'Earth Champion',
+      description: '100+ points',
       earned: true,
       icon: Recycle,
       color: 'bg-green-500'
     },
     {
-      name: 'Event Enthusiast',
-      description: 'Joined 5+ eco events',
+      name: 'Eco Star',
+      description: '50 points',
       earned: true,
       icon: Calendar,
-      color: 'bg-blue-500'
+      color: 'bg-emerald-500'
     },
     {
-      name: 'Carbon Crusher',
-      description: 'Saved 100kg+ CO₂',
+      name: 'Eco Learner',
+      description: '20 points',
       earned: true,
       icon: Wind,
-      color: 'bg-purple-500'
+      color: 'bg-teal-500'
     },
     {
-      name: 'Water Warrior',
-      description: 'Conserved 500L+ water',
+      name: 'Beginner Recycler',
+      description: 'Just started',
       earned: false,
       icon: Droplets,
-      color: 'bg-gray-400'
+      color: 'bg-gray-500'
     }
   ];
 
@@ -165,11 +166,11 @@ const CustomerDashboard = () => {
   const getActivityIcon = (type) => {
     switch (type) {
       case 'recycle':
-        return 'bg-green-100 text-green-600';
+        return 'bg-green-500 text-white shadow-lg';
       case 'event':
-        return 'bg-blue-100 text-blue-600';
+        return 'bg-emerald-500 text-white shadow-lg';
       default:
-        return 'bg-gray-100 text-gray-600';
+        return 'bg-green-500 text-white shadow-lg';
     }
   };
 
@@ -181,15 +182,53 @@ const CustomerDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-emerald-50">
-      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${img2})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+
+      {/* Custom CSS for floating animations */}
+      <style jsx>{`
+        /* Floating eco shapes */
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating:nth-child(odd) { animation-delay: -2s; }
+        .floating:nth-child(even) { animation-delay: -4s; }
+        @keyframes float {
+          0%,100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+      `}</style>
+
+      {/* Decorative floating elements */}
+      <div className="absolute top-4 left-4 w-16 h-16 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute top-12 right-8 w-8 h-8 bg-green-200 rounded-full opacity-15 floating"></div>
+      <div className="absolute bottom-8 left-12 w-12 h-12 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute bottom-4 right-16 w-6 h-6 bg-green-200 rounded-full opacity-20 floating"></div>
+
+      {/* Background SVG patterns */}
+      <svg className="absolute top-10 left-10 w-40 h-40 text-green-700 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C8 6 2 9 2 15a10 10 0 0020 0c0-6-6-9-10-13z" />
+      </svg>
+      <svg className="absolute bottom-10 right-20 w-56 h-56 text-green-600 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+      </svg>
+
+      <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Leaf className="text-green-600" />
+          <h1 className="text-4xl font-bold text-white flex items-center gap-3 drop-shadow-lg">
+            <Leaf className="text-green-300" />
             Welcome back, {user?.firstName}!
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-green-100 mt-2 text-lg drop-shadow-sm">
             Your environmental impact journey continues. Together, we're making a difference! 🌱
           </p>
         </div>
@@ -197,27 +236,27 @@ const CustomerDashboard = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => (
-            <div key={stat.name} className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300">
+            <div key={stat.name} className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6 hover:shadow-2xl hover:bg-white transition-all duration-300 hover:scale-105">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{stat.name}</p>
+                  <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">{stat.name}</p>
                   <div className="flex items-baseline gap-1">
-                    <p className="text-2xl font-bold text-gray-900 mt-2">
+                    <p className="text-3xl font-bold text-gray-900 mt-2">
                       {stat.value}
                     </p>
                     {stat.unit && (
-                      <span className="text-sm text-gray-500">{stat.unit}</span>
+                      <span className="text-sm text-gray-600 font-medium">{stat.unit}</span>
                     )}
                   </div>
                   {stat.change && (
                     <div className="flex items-center mt-2">
-                      <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-                      <span className="text-sm text-green-600 font-medium">{stat.change}</span>
+                      <TrendingUp className="w-4 h-4 text-green-600 mr-1" />
+                      <span className="text-sm text-green-600 font-semibold">{stat.change}</span>
                     </div>
                   )}
                 </div>
-                <div className={`p-3 rounded-xl ${stat.color}`}>
-                  <stat.icon className="w-6 h-6" />
+                <div className="p-3 rounded-xl bg-green-500 shadow-lg">
+                  <stat.icon className="w-8 h-8 text-white" />
                 </div>
               </div>
             </div>
@@ -227,31 +266,31 @@ const CustomerDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
           {/* Recent Activities */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
                   <BarChart3 className="text-green-600" />
                   Recent Eco Activities
                 </h2>
-                <button className="text-green-600 hover:text-green-700 text-sm font-medium">
+                <button className="text-green-600 hover:text-green-700 text-sm font-semibold transition-colors px-3 py-1 rounded-md hover:bg-green-50">
                   View all
                 </button>
               </div>
               <div className="space-y-4">
                 {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-100">
+                  <div key={activity.id} className="flex items-center justify-between p-4 bg-gray-50/80 rounded-lg border border-gray-200 hover:bg-gray-100/80 transition-all duration-200">
                     <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-lg ${getActivityIcon(activity.type)}`}>
+                      <div className={`p-3 rounded-lg ${getActivityIcon(activity.type)}`}>
                         <activity.icon className="w-5 h-5" />
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900">{activity.activity}</h3>
-                        <p className="text-sm text-gray-600">{activity.date}</p>
-                        <p className="text-sm text-green-600 font-medium">{activity.impact}</p>
+                        <h3 className="font-semibold text-gray-900">{activity.activity}</h3>
+                        <p className="text-sm text-gray-600 font-medium">{activity.date}</p>
+                        <p className="text-sm text-green-700 font-semibold">{activity.impact}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+                      <span className="inline-flex px-4 py-2 text-sm font-bold rounded-full bg-green-500 text-white shadow-lg">
                         {activity.points}
                       </span>
                     </div>
@@ -262,28 +301,28 @@ const CustomerDashboard = () => {
           </div>
 
           {/* Badges Earned */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <Trophy className="text-yellow-600" />
+          <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <Trophy className="text-yellow-500" />
               Eco Badges
             </h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-4">
               {badges.map((badge) => (
-                <div key={badge.name} className={`p-3 rounded-lg border-2 transition-all duration-300 ${
+                <div key={badge.name} className={`p-4 rounded-lg border-2 transition-all duration-300 ${
                   badge.earned 
-                    ? 'border-green-200 bg-green-50 hover:shadow-md' 
-                    : 'border-gray-200 bg-gray-50 opacity-60'
+                    ? 'border-green-400 bg-green-50 hover:shadow-lg hover:bg-green-100' 
+                    : 'border-gray-300 bg-gray-100 opacity-70'
                 }`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mb-2 ${badge.color}`}>
-                    <badge.icon className="w-4 h-4 text-white" />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-3 ${badge.color} shadow-md`}>
+                    <badge.icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className={`font-medium text-xs mb-1 ${
+                  <h3 className={`font-semibold text-sm mb-1 ${
                     badge.earned ? 'text-gray-900' : 'text-gray-500'
                   }`}>
                     {badge.name}
                   </h3>
                   <p className={`text-xs ${
-                    badge.earned ? 'text-gray-600' : 'text-gray-400'
+                    badge.earned ? 'text-gray-700' : 'text-gray-500'
                   }`}>
                     {badge.description}
                   </p>
@@ -295,30 +334,30 @@ const CustomerDashboard = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Monthly Analytics */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-              <Target className="text-blue-600" />
+          <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <Target className="text-green-600" />
               Monthly Impact Analytics
             </h2>
             <div className="space-y-4">
               {monthlyImpact.map((month) => (
-                <div key={month.month} className="border border-gray-100 rounded-lg p-4">
+                <div key={month.month} className="border-2 border-green-200 rounded-lg p-5 bg-green-50/70 hover:bg-green-100/70 transition-colors">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-medium text-gray-900">{month.month} 2024</h3>
-                    <span className="text-sm font-semibold text-green-600">{month.points} pts</span>
+                    <h3 className="font-bold text-gray-900 text-lg">{month.month} 2024</h3>
+                    <span className="text-sm font-bold text-green-700 bg-green-200 px-3 py-1 rounded-full">{month.points} pts</span>
                   </div>
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div className="text-center">
-                      <p className="text-gray-600">CO₂ Saved</p>
-                      <p className="font-semibold text-purple-600">{month.co2}kg</p>
+                      <p className="text-gray-600 font-medium">CO₂ Saved</p>
+                      <p className="font-bold text-green-700 text-lg">{month.co2}kg</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-gray-600">Items</p>
-                      <p className="font-semibold text-blue-600">{month.items}</p>
+                      <p className="text-gray-600 font-medium">Items</p>
+                      <p className="font-bold text-green-700 text-lg">{month.items}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-gray-600">Growth</p>
-                      <p className="font-semibold text-green-600">+12%</p>
+                      <p className="text-gray-600 font-medium">Growth</p>
+                      <p className="font-bold text-green-700 text-lg">+12%</p>
                     </div>
                   </div>
                 </div>
@@ -327,29 +366,29 @@ const CustomerDashboard = () => {
           </div>
 
           {/* Upcoming Events */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
+          <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <Calendar className="text-green-600" />
               Upcoming Eco Events
             </h2>
             <div className="space-y-4">
               {upcomingEvents.map((event) => (
-                <div key={event.id} className="border border-green-100 rounded-lg p-4 hover:bg-green-50 transition-colors">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-medium text-gray-900">{event.title}</h3>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                <div key={event.id} className="border-2 border-green-200 rounded-lg p-4 bg-green-50/70 hover:bg-green-100/70 transition-all duration-200 hover:shadow-md">
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 className="font-bold text-gray-900">{event.title}</h3>
+                    <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full font-bold shadow-sm">
                       {event.points}
                     </span>
                   </div>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <p className="flex items-center gap-1">
+                  <div className="text-sm text-gray-700 space-y-1 mb-3">
+                    <p className="flex items-center gap-1 font-medium">
                       <Calendar className="w-3 h-3" />
                       {event.date} at {event.time}
                     </p>
-                    <p>{event.location}</p>
-                    <p className="text-green-600 font-medium">{event.participants} participants registered</p>
+                    <p className="font-medium">{event.location}</p>
+                    <p className="text-green-700 font-semibold">{event.participants} participants registered</p>
                   </div>
-                  <button className="mt-3 w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-sm font-medium">
+                  <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors text-sm font-bold shadow-lg hover:shadow-xl transform hover:scale-105 duration-200">
                     Join Event
                   </button>
                 </div>
@@ -360,27 +399,27 @@ const CustomerDashboard = () => {
 
         {/* Quick Actions */}
         <div className="mt-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Eco Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <button className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-left hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <Recycle className="w-8 h-8 text-green-600 mb-2" />
-              <h3 className="font-medium text-gray-900">Log Recycling</h3>
-              <p className="text-sm text-gray-600">Record your recycling activities</p>
+          <h2 className="text-2xl font-bold text-white mb-6 drop-shadow-lg">Quick Eco Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <button className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6 text-left hover:shadow-2xl hover:bg-white transition-all duration-300 hover:-translate-y-2 hover:scale-105 group">
+              <Recycle className="w-10 h-10 text-green-600 mb-3 group-hover:text-green-700 transition-colors" />
+              <h3 className="font-bold text-gray-900 text-lg">Log Recycling</h3>
+              <p className="text-sm text-gray-700 font-medium">Record your recycling activities</p>
             </button>
-            <button className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-left hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <Calendar className="w-8 h-8 text-blue-600 mb-2" />
-              <h3 className="font-medium text-gray-900">Browse Events</h3>
-              <p className="text-sm text-gray-600">Join environmental activities</p>
+            <button className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6 text-left hover:shadow-2xl hover:bg-white transition-all duration-300 hover:-translate-y-2 hover:scale-105 group">
+              <Calendar className="w-10 h-10 text-green-600 mb-3 group-hover:text-green-700 transition-colors" />
+              <h3 className="font-bold text-gray-900 text-lg">Browse Events</h3>
+              <p className="text-sm text-gray-700 font-medium">Join environmental activities</p>
             </button>
-            <button className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-left hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <Trophy className="w-8 h-8 text-yellow-600 mb-2" />
-              <h3 className="font-medium text-gray-900">Redeem Points</h3>
-              <p className="text-sm text-gray-600">Exchange points for eco rewards</p>
+            <button className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6 text-left hover:shadow-2xl hover:bg-white transition-all duration-300 hover:-translate-y-2 hover:scale-105 group">
+              <Trophy className="w-10 h-10 text-yellow-500 mb-3 group-hover:text-yellow-600 transition-colors" />
+              <h3 className="font-bold text-gray-900 text-lg">Redeem Points</h3>
+              <p className="text-sm text-gray-700 font-medium">Exchange points for eco rewards</p>
             </button>
-            <button className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-left hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-              <BarChart3 className="w-8 h-8 text-purple-600 mb-2" />
-              <h3 className="font-medium text-gray-900">View Analytics</h3>
-              <p className="text-sm text-gray-600">Track your environmental impact</p>
+            <button className="bg-white/95 backdrop-blur-md rounded-xl shadow-xl border border-white/30 p-6 text-left hover:shadow-2xl hover:bg-white transition-all duration-300 hover:-translate-y-2 hover:scale-105 group">
+              <BarChart3 className="w-10 h-10 text-green-600 mb-3 group-hover:text-green-700 transition-colors" />
+              <h3 className="font-bold text-gray-900 text-lg">View Analytics</h3>
+              <p className="text-sm text-gray-700 font-medium">Track your environmental impact</p>
             </button>
           </div>
         </div>

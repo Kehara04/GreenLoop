@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, ArrowLeft, Lightbulb, Star, Clock, Wrench, Book, Heart, Recycle } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import img7 from '../../../assets/background1.png';
+
 
 const ReuseIdeasPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,6 +24,7 @@ const ReuseIdeasPage = () => {
 
   const reuseIdeas = [
     // Plastic Ideas
+
     {
       id: 1,
       title: 'Plastic Bottle Planters',
@@ -313,22 +317,57 @@ const ReuseIdeasPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50">
+    <div 
+      className="min-h-screen relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${img7})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      {/* Dark overlay for better readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+      {/* Custom CSS for floating animations */}
+      <style jsx>{`
+        /* Floating eco shapes */
+        .floating { animation: float 6s ease-in-out infinite; }
+        .floating:nth-child(odd) { animation-delay: -2s; }
+        .floating:nth-child(even) { animation-delay: -4s; }
+        @keyframes float {
+          0%,100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+      `}</style>
+
+      {/* Decorative floating elements */}
+      <div className="absolute top-4 left-4 w-16 h-16 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute top-12 right-8 w-8 h-8 bg-green-200 rounded-full opacity-15 floating"></div>
+      <div className="absolute bottom-8 left-12 w-12 h-12 bg-green-300 rounded-full opacity-10 floating"></div>
+      <div className="absolute bottom-4 right-16 w-6 h-6 bg-green-200 rounded-full opacity-20 floating"></div>
+
+      {/* Background SVG patterns */}
+      <svg className="absolute top-10 left-10 w-40 h-40 text-green-700 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2C8 6 2 9 2 15a10 10 0 0020 0c0-6-6-9-10-13z" />
+      </svg>
+      <svg className="absolute bottom-10 right-20 w-56 h-56 text-green-600 opacity-5 floating" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
+      </svg>
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white/10 backdrop-blur-md shadow-sm border-b border-white/20 relative z-10">
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <button className="mr-4 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
-              </button>
               <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                <div className="w-10 h-10 rounded-full bg-green-100/20 backdrop-blur-sm flex items-center justify-center mr-3 border border-white/20">
                   <Lightbulb className="w-5 h-5" style={{ color: '#5AD670' }} />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-800">Reuse Ideas</h1>
-                  <p className="text-gray-600">Creative ways to give your items a second life</p>
+                  <h1 className="text-2xl font-bold text-white drop-shadow-lg">Reuse Ideas</h1>
+                  <p className="text-green-200 drop-shadow-sm">Creative ways to give your items a second life</p>
                 </div>
               </div>
             </div>
@@ -336,9 +375,9 @@ const ReuseIdeasPage = () => {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl mx-auto px-4 py-6 relative z-10">
         {/* Search and Filter Bar */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 p-6 mb-6">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Bar */}
             <div className="flex-1 relative">
@@ -410,7 +449,7 @@ const ReuseIdeasPage = () => {
 
         {/* Results Count */}
         <div className="mb-4">
-          <p className="text-gray-600">
+          <p className="text-white drop-shadow-sm">
             Showing <span className="font-semibold">{filteredIdeas.length}</span> ideas
             {selectedCategory !== 'all' && (
               <span> for <span className="font-semibold">{categories[selectedCategory].label}</span></span>
@@ -421,7 +460,7 @@ const ReuseIdeasPage = () => {
         {/* Ideas Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredIdeas.map((idea) => (
-            <div key={idea.id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+            <div key={idea.id} className="bg-white/95 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 overflow-hidden hover:shadow-xl hover:bg-white transition-all duration-300 hover:scale-105">
               {/* Card Header */}
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
@@ -467,15 +506,6 @@ const ReuseIdeasPage = () => {
                     )}
                   </div>
                 </div>
-
-                {/* Action Button
-                <button 
-                  className="w-full py-3 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center justify-center"
-                  style={{ backgroundColor: '#5AD670' }}
-                >
-                  <Book className="w-4 h-4 mr-2" />
-                  View Instructions
-                </button> */}
               </div>
             </div>
           ))}
@@ -484,40 +514,27 @@ const ReuseIdeasPage = () => {
         {/* No Results Message */}
         {filteredIdeas.length === 0 && (
           <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-gray-400" />
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4 border border-white/30">
+              <Search className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">No ideas found</h3>
-            <p className="text-gray-500 mb-4">Try adjusting your search terms or filters</p>
+            <h3 className="text-lg font-semibold text-white mb-2 drop-shadow-lg">No ideas found</h3>
+            <p className="text-green-200 mb-4 drop-shadow-sm">Try adjusting your search terms or filters</p>
             <button
               onClick={() => {
                 setSearchTerm('');
                 setSelectedCategory('all');
                 setSelectedDifficulty('all');
               }}
-              className="px-6 py-2 text-green-600 border border-green-600 rounded-lg hover:bg-green-50 transition-colors"
+              className="px-6 py-2 text-white border border-green-400 rounded-lg hover:bg-green-400/20 transition-colors backdrop-blur-sm"
             >
               Clear Filters
             </button>
           </div>
         )}
 
-        {/* Bottom CTA
-        <div className="bg-white rounded-2xl shadow-lg p-8 mt-8 text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Heart className="w-8 h-8" style={{ color: '#5AD670' }} />
-          </div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">Share Your Ideas!</h3>
-          <p className="text-gray-600 mb-4">Have a creative reuse idea? Share it with our community and help others reduce waste.</p>
-          <button 
-            className="px-6 py-3 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-            style={{ backgroundColor: '#5AD670' }}
-          >
-            Submit Your Idea
-          </button> */}
-        </div>
+      
       </div>
-   
+    </div>
   );
 };
 

@@ -127,13 +127,18 @@ const AppContent = () => {
           </ProtectedRoute>
         } />
 
-        {/* NEW: Recycle System Routes */}
-        <Route path="/recycle-form" element={
-          <ProtectedRoute roles={['customer', 'admin']}>
-            <RecycleForm />
-          </ProtectedRoute>
-        } />
+// In your Routes section, replace the recycle-form route with:
+<Route path="/recycle-form" element={
+  <ProtectedRoute roles={['customer', 'admin']}>
+    <RecycleForm />
+  </ProtectedRoute>
+} />
 
+<Route path="/recycle-form/summary" element={
+  <ProtectedRoute roles={['customer', 'admin']}>
+    <RecycleForm />
+  </ProtectedRoute>
+} />
 
         
 
