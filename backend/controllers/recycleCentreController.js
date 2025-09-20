@@ -1,145 +1,158 @@
-// const RecycleCentre = require("../models/recycleCentre");
-// const bcrypt = require("bcryptjs");
+// const RecycleCentre = require('../models/recycleCentre');
+// const bcrypt = require('bcryptjs'); 
 // const jwt = require("jsonwebtoken");
 // require("dotenv").config();
 
-
-// // ✅ Register Recycle Centre
-// exports.registerRecycleCentre = async (req, res) => {
-//   try {
-//     const { name, email, password, confirmPassword, address, contactNumber, website, location, acceptedItems } = req.body;
-
-//     // Check if recycle centre already exists
-//     const existingCentre = await RecycleCentre.findOne({ email });
-//     if (existingCentre) {
-//       return res.status(400).json({ message: "Recycle Centre with this email already exists" });
-//     }
-
-//     // Passwords match?
-//     if (password !== confirmPassword) {
-//       return res.status(400).json({ message: "Passwords do not match" });
-//     }
-
-//     // Hash password
-//     const hashedPassword = await bcrypt.hash(password, 12);
-
-//     // Create new recycle centre
-//     const newCentre = new RecycleCentre({
-//       name,
-//       email,
-//       password: hashedPassword,
-//       address,
-//       contactNumber,
-//       website,
-//       location,
-//       acceptedItems,
-//     });
-
-//     await newCentre.save();
-
-//     res.status(201).json({ message: "Recycle Centre registered successfully!" });
-//   } catch (error) {
-//     console.error("Register Error:", error);
-//     res.status(500).json({ message: "Server error while registering recycle centre" });
-//   }
-// };
-
-// // ✅ Login Recycle Centre
-// exports.loginRecycleCentre = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     // Find recycle centre
-//     const centre = await RecycleCentre.findOne({ email });
-//     if (!centre) {
-//       return res.status(404).json({ message: "Recycle Centre not found" });
-//     }
-
-//     // Compare password
-//     const isMatch = await bcrypt.compare(password, centre.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ message: "Invalid credentials" });
-//     }
-
-//     // Generate JWT token
-//     const token = jwt.sign(
-//       { id: centre.recycleCentre_id, role: "recycleCentre" },
-//       process.env.SECRET_KEY,
-//       { expiresIn: "1h" }
-//     );
-
-//     res.status(200).json({
-//       message: "Login successful",
-//       token,
-//       role: "recycleCentre",
-//       id: centre.recycleCentre_id,
-//     });
-//   } catch (error) {
-//     console.error("Login Error:", error);
-//     res.status(500).json({ message: "Server error while logging in recycle centre" });
-//   }
-// };
-
-
-// // Get all recycle centres
 // exports.getRecycleCentres = async (req, res) => {
-//   try {
-//     const centres = await RecycleCentre.find();
-//     res.status(200).json(centres);
-//   } catch (error) {
-//     res.status(500).json({ message: "Error fetching recycle centres", error });
-//   }
+//     try {
+//         const recycleCentres = await RecycleCentre.find().select('-password');
+//         res.status(200).json(recycleCentres);
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
 // };
 
-// // Get single recycle centre by recycleCentre_id
-// exports.getRecycleCentreById = async (req, res) => {
-//   try {
-//     const id = req.query.id; // e.g., /api/recycle-centres/id?id=1
-//     const centre = await RecycleCentre.findOne({ recycleCentre_id: id });
-//     if (!centre) return res.status(404).json({ message: "Recycle centre not found" });
-//     res.status(200).json(centre);
-//   } catch (error) {
-//     res.status(500).json({ message: "Error fetching recycle centre", error });
-//   }
+// exports.getRecycleCentreById = async(req, res) => {
+//     try {
+//         const id = req.query.id;
+//         const recycleCentre = await RecycleCentre.findOne({recycleCentre_id: id}).select('-password');
+
+//         if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+
+//         res.status(200).json(recycleCentre);
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
 // };
 
-// // Add new recycle centre
-// exports.addRecycleCentre = async (req, res) => {
-//   try {
-//     const newCentre = new RecycleCentre(req.body);
-//     await newCentre.save();
-//     res.status(201).json({ message: "Recycle centre added successfully", centre: newCentre });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error adding recycle centre", error });
-//   }
+// exports.getRecycleCentreByEmail = async (req, res) => {
+//     try {
+//         const email = req.body.email;
+//         const recycleCentre = await RecycleCentre.findOne({email: email}).select('-password');
+
+//         if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+
+//         res.status(200).json(recycleCentre);
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
 // };
 
-// // Update recycle centre by recycleCentre_id
-// exports.updateRecycleCentre = async (req, res) => {
-//   try {
-//     const id = req.query.id; // pass recycleCentre_id in query
-//     const updatedCentre = await RecycleCentre.findOneAndUpdate(
-//       { recycleCentre_id: id },
-//       req.body,
-//       { new: true }
-//     );
-//     if (!updatedCentre) return res.status(404).json({ message: "Recycle centre not found" });
-//     res.status(200).json({ message: "Recycle centre updated successfully", centre: updatedCentre });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error updating recycle centre", error });
-//   }
+// exports.addRecycleCentre = async(req, res) => {
+//     try {
+//         const {name, address, contactNumber, email, password, confirmPassword, website, lat, lng, acceptedItems} = req.body;
+
+//         const isRecycleCentreExist = await RecycleCentre.findOne({email});
+
+//         if(isRecycleCentreExist){
+//             return res.status(400).json({ message: "Recycle centre with this email already exists." });
+//         }
+
+//         if(password !== confirmPassword){
+//             return res.status(400).json({message: "Passwords do not match"});
+//         }
+
+//         const hashedPassword = await bcrypt.hash(password, 12);
+
+//         const recycleCentre = new RecycleCentre({
+//             name,
+//             address,
+//             contactNumber,
+//             email,
+//             password: hashedPassword,
+//             website,
+//             location: {
+//                 lat: parseFloat(lat),
+//                 lng: parseFloat(lng)
+//             },
+//             acceptedItems: acceptedItems || []
+//         });
+
+//         await recycleCentre.save();
+        
+//         res.status(200).json({ 
+//             message: "Recycle centre registered successfully!",
+//             recycleCentre: {
+//                 recycleCentre_id: recycleCentre.recycleCentre_id,
+//                 name: recycleCentre.name,
+//                 email: recycleCentre.email,
+//                 address: recycleCentre.address,
+//                 contactNumber: recycleCentre.contactNumber
+//             }
+//         });
+//     } catch (error) {
+//         res.status(500).json(error);
+//         console.log(error);
+//     }
 // };
 
-// // Delete recycle centre by recycleCentre_id
-// exports.deleteRecycleCentre = async (req, res) => {
-//   try {
-//     const id = req.query.id; // pass recycleCentre_id in query
-//     const deleted = await RecycleCentre.findOneAndDelete({ recycleCentre_id: id });
-//     if (!deleted) return res.status(404).json({ message: "Recycle centre not found" });
-//     res.status(200).json({ message: "Recycle centre deleted successfully" });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error deleting recycle centre", error });
-//   }
+// exports.updateRecycleCentre = async(req, res) => {
+//     try {
+//         const {name, address, contactNumber, email, website, lat, lng, acceptedItems} = req.body;
+//         const recycleCentre_id = req.body.recycleCentreId; 
+        
+//         const existingRecycleCentre = await RecycleCentre.findOne({recycleCentre_id});
+//         if (!existingRecycleCentre) {
+//             return res.status(404).json({ message: "Recycle centre not found" });
+//         }
+
+//         const updateData = {
+//             name,
+//             address,
+//             contactNumber,
+//             email,
+//             website,
+//             location: {
+//                 lat: parseFloat(lat),
+//                 lng: parseFloat(lng)
+//             },
+//             acceptedItems: acceptedItems || []
+//         };
+
+//         const recycleCentre = await RecycleCentre.findOneAndUpdate(
+//             {recycleCentre_id}, 
+//             updateData, 
+//             {new: true}
+//         ).select('-password');
+
+//         if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+        
+//         res.json({ message: "Recycle centre updated successfully", recycleCentre });
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
+// };
+
+// exports.updatePassword = async (req, res) => {
+//     try{
+//         const recycleCentre_id = req.body.recycleCentreId;
+//         const {password, confirmPassword} = req.body;
+
+//         if(password !== confirmPassword){
+//             return res.status(400).json({message: "Passwords do not match"});
+//         }
+
+//         const hashedPassword = await bcrypt.hash(password, 12);
+//         const recycleCentre = await RecycleCentre.findOneAndUpdate(
+//             {recycleCentre_id}, 
+//             {password: hashedPassword}, 
+//             {new: true}
+//         );
+
+//         res.status(200).json({message: "Password updated successfully!"});
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
+// };
+
+// exports.deleteRecycleCentre = async(req, res) => {
+//     try{
+//         const recycleCentre_id = req.query.id;
+//         const recycleCentre = await RecycleCentre.findOneAndDelete({recycleCentre_id});
+//         res.status(200).json({message: "Recycle centre deleted successfully!"});
+//     } catch (error) {
+//         res.status(500).json(error);
+//     }
 // };
 
 const RecycleCentre = require('../models/recycleCentre');
@@ -147,6 +160,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+// Get all recycle centres (public)
 exports.getRecycleCentres = async (req, res) => {
     try {
         const recycleCentres = await RecycleCentre.find().select('-password');
@@ -156,12 +170,13 @@ exports.getRecycleCentres = async (req, res) => {
     }
 };
 
+// Get recycle centre by ID
 exports.getRecycleCentreById = async(req, res) => {
     try {
         const id = req.query.id;
-        const recycleCentre = await RecycleCentre.findOne({recycleCentre_id: id}).select('-password');
+        const recycleCentre = await RecycleCentre.findOne({ recycleCentre_id: id }).select('-password');
 
-        if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+        if (!recycleCentre) return res.status(404).json("Recycle centre not found");
 
         res.status(200).json(recycleCentre);
     } catch (error) {
@@ -169,12 +184,13 @@ exports.getRecycleCentreById = async(req, res) => {
     }
 };
 
+// Get recycle centre by email
 exports.getRecycleCentreByEmail = async (req, res) => {
     try {
         const email = req.body.email;
-        const recycleCentre = await RecycleCentre.findOne({email: email}).select('-password');
+        const recycleCentre = await RecycleCentre.findOne({ email: email }).select('-password');
 
-        if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+        if (!recycleCentre) return res.status(404).json("Recycle centre not found");
 
         res.status(200).json(recycleCentre);
     } catch (error) {
@@ -182,18 +198,29 @@ exports.getRecycleCentreByEmail = async (req, res) => {
     }
 };
 
-exports.addRecycleCentre = async(req, res) => {
+// Register new recycle centre
+exports.addRecycleCentre = async (req, res) => {
     try {
-        const {name, address, contactNumber, email, password, confirmPassword, website, lat, lng, acceptedItems} = req.body;
+        const {
+            name,
+            address,
+            contactNumber,
+            email,
+            password,
+            confirmPassword,
+            website,
+            city,
+            district,
+            acceptedItems
+        } = req.body;
 
-        const isRecycleCentreExist = await RecycleCentre.findOne({email});
-
-        if(isRecycleCentreExist){
+        const isRecycleCentreExist = await RecycleCentre.findOne({ email });
+        if (isRecycleCentreExist) {
             return res.status(400).json({ message: "Recycle centre with this email already exists." });
         }
 
-        if(password !== confirmPassword){
-            return res.status(400).json({message: "Passwords do not match"});
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -206,8 +233,8 @@ exports.addRecycleCentre = async(req, res) => {
             password: hashedPassword,
             website,
             location: {
-                lat: parseFloat(lat),
-                lng: parseFloat(lng)
+                city: city.toLowerCase().trim(),
+                district: district.toLowerCase().trim()
             },
             acceptedItems: acceptedItems || []
         });
@@ -221,7 +248,8 @@ exports.addRecycleCentre = async(req, res) => {
                 name: recycleCentre.name,
                 email: recycleCentre.email,
                 address: recycleCentre.address,
-                contactNumber: recycleCentre.contactNumber
+                contactNumber: recycleCentre.contactNumber,
+                location: recycleCentre.location
             }
         });
     } catch (error) {
@@ -230,12 +258,23 @@ exports.addRecycleCentre = async(req, res) => {
     }
 };
 
-exports.updateRecycleCentre = async(req, res) => {
+// Update recycle centre
+exports.updateRecycleCentre = async (req, res) => {
     try {
-        const {name, address, contactNumber, email, website, lat, lng, acceptedItems} = req.body;
+        const {
+            name,
+            address,
+            contactNumber,
+            email,
+            website,
+            city,
+            district,
+            acceptedItems
+        } = req.body;
+
         const recycleCentre_id = req.body.recycleCentreId; 
         
-        const existingRecycleCentre = await RecycleCentre.findOne({recycleCentre_id});
+        const existingRecycleCentre = await RecycleCentre.findOne({ recycleCentre_id });
         if (!existingRecycleCentre) {
             return res.status(404).json({ message: "Recycle centre not found" });
         }
@@ -247,19 +286,19 @@ exports.updateRecycleCentre = async(req, res) => {
             email,
             website,
             location: {
-                lat: parseFloat(lat),
-                lng: parseFloat(lng)
+                city: city?.toLowerCase().trim(),
+                district: district?.toLowerCase().trim()
             },
             acceptedItems: acceptedItems || []
         };
 
         const recycleCentre = await RecycleCentre.findOneAndUpdate(
-            {recycleCentre_id}, 
+            { recycleCentre_id }, 
             updateData, 
-            {new: true}
+            { new: true }
         ).select('-password');
 
-        if(!recycleCentre) return res.status(404).json("Recycle centre not found");
+        if (!recycleCentre) return res.status(404).json("Recycle centre not found");
         
         res.json({ message: "Recycle centre updated successfully", recycleCentre });
     } catch (error) {
@@ -267,34 +306,217 @@ exports.updateRecycleCentre = async(req, res) => {
     }
 };
 
+// Update password
 exports.updatePassword = async (req, res) => {
-    try{
+    try {
         const recycleCentre_id = req.body.recycleCentreId;
-        const {password, confirmPassword} = req.body;
+        const { password, confirmPassword } = req.body;
 
-        if(password !== confirmPassword){
-            return res.status(400).json({message: "Passwords do not match"});
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
-        const recycleCentre = await RecycleCentre.findOneAndUpdate(
-            {recycleCentre_id}, 
-            {password: hashedPassword}, 
-            {new: true}
+        await RecycleCentre.findOneAndUpdate(
+            { recycleCentre_id }, 
+            { password: hashedPassword }, 
+            { new: true }
         );
 
-        res.status(200).json({message: "Password updated successfully!"});
+        res.status(200).json({ message: "Password updated successfully!" });
     } catch (error) {
         res.status(500).json(error);
     }
 };
 
-exports.deleteRecycleCentre = async(req, res) => {
-    try{
+// Delete recycle centre
+exports.deleteRecycleCentre = async (req, res) => {
+    try {
         const recycleCentre_id = req.query.id;
-        const recycleCentre = await RecycleCentre.findOneAndDelete({recycleCentre_id});
-        res.status(200).json({message: "Recycle centre deleted successfully!"});
+        await RecycleCentre.findOneAndDelete({ recycleCentre_id });
+        res.status(200).json({ message: "Recycle centre deleted successfully!" });
     } catch (error) {
         res.status(500).json(error);
+    }
+};
+
+// Add these new functions to your backend/controllers/recycleCentreController.js
+
+// Get centres by district and city with optional item filter
+exports.getCentresByArea = async (req, res) => {
+    try {
+        const district = (req.query.district || '').toLowerCase().trim();
+        const city = (req.query.city || '').toLowerCase().trim();
+        const acceptedItems = req.query.acceptedItems ? 
+            req.query.acceptedItems.split(',').map(item => item.trim().toLowerCase()) : 
+            [];
+
+        if (!district) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'District is required' 
+            });
+        }
+
+        // Build query - prioritize same city, then same district
+        let query = { 'location.district': district };
+        
+        // If city is provided, prefer exact city matches first
+        if (city) {
+            query['location.city'] = city;
+        }
+
+        // Filter by accepted items if provided
+        if (acceptedItems.length > 0) {
+            query.acceptedItems = { 
+                $in: acceptedItems.map(item => new RegExp(item, 'i')) 
+            };
+        }
+
+        const centres = await RecycleCentre.find(query).select('-password').sort({ 
+            'location.city': city ? 1 : 0, // Same city first
+            name: 1 
+        });
+
+        // If no exact city match and city was provided, try broader district search
+        let alternateCentres = [];
+        if (city && centres.length === 0) {
+            const broadQuery = { 'location.district': district };
+            if (acceptedItems.length > 0) {
+                broadQuery.acceptedItems = { 
+                    $in: acceptedItems.map(item => new RegExp(item, 'i')) 
+                };
+            }
+            alternateCentres = await RecycleCentre.find(broadQuery).select('-password').sort({ name: 1 });
+        }
+
+        const finalCentres = centres.length > 0 ? centres : alternateCentres;
+
+        res.status(200).json({
+            success: true,
+            count: finalCentres.length,
+            searchCriteria: {
+                district,
+                city: city || null,
+                acceptedItems: acceptedItems.length > 0 ? acceptedItems : null
+            },
+            centres: finalCentres
+        });
+    } catch (error) {
+        console.error('Error fetching centres by area:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch recycle centres',
+            error: error.message
+        });
+    }
+};
+
+exports.getSuggestedCentres = async (req, res) => {
+    try {
+        const { district, city, categories } = req.body;
+        
+        if (!district) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'District is required' 
+            });
+        }
+
+        // Extract categories with quantity > 0 and map them to searchable terms
+        const recycleItems = [];
+        if (categories) {
+            Object.entries(categories).forEach(([key, quantity]) => {
+                if (quantity > 0) {
+                    // Enhanced mapping for better matching
+                    const itemMap = {
+                        metal: ['metal', 'aluminum', 'aluminium', 'steel', 'iron', 'copper', 'brass', 'tin'],
+                        plastic: ['plastic', 'pet', 'bottle', 'container', 'polypropylene', 'polyethylene'],
+                        polythene: ['polythene', 'plastic', 'bag', 'shopping bag', 'carrier bag'],
+                        eWaste: ['electronic', 'ewaste', 'e-waste', 'computer', 'phone', 'mobile', 'laptop', 'tablet', 'appliance'],
+                        clothes: ['textile', 'clothes', 'fabric', 'clothing', 'garment', 'apparel', 'cotton', 'wool'],
+                        paper: ['paper', 'cardboard', 'newspaper', 'magazine', 'book', 'document', 'office paper'],
+                        regiform: ['foam', 'polystyrene', 'styrofoam', 'expanded polystyrene', 'eps']
+                    };
+                    recycleItems.push(...(itemMap[key] || [key]));
+                }
+            });
+        }
+
+        // Build base query
+        const baseQuery = { 'location.district': district.toLowerCase().trim() };
+
+        // First, try to find centers in the same city
+        let centres = [];
+        if (city) {
+            const cityQuery = {
+                ...baseQuery,
+                'location.city': city.toLowerCase().trim()
+            };
+            centres = await RecycleCentre.find(cityQuery).select('-password');
+        }
+
+        // If no centers found in the city, expand to district level
+        if (centres.length === 0) {
+            centres = await RecycleCentre.find(baseQuery).select('-password');
+        }
+
+        // Score and filter centres based on accepted items
+        if (recycleItems.length > 0) {
+            centres = centres.map(centre => {
+                const acceptedItems = centre.acceptedItems || [];
+                let matchScore = 0;
+                
+                recycleItems.forEach(item => {
+                    const matches = acceptedItems.some(accepted => {
+                        const acceptedLower = accepted.toLowerCase();
+                        const itemLower = item.toLowerCase();
+                        return acceptedLower.includes(itemLower) || 
+                               itemLower.includes(acceptedLower) ||
+                               // Check for partial matches
+                               acceptedLower.split(' ').some(word => itemLower.includes(word)) ||
+                               itemLower.split(' ').some(word => acceptedLower.includes(word));
+                    });
+                    if (matches) matchScore++;
+                });
+
+                return {
+                    ...centre.toObject(),
+                    matchScore,
+                    matchPercentage: recycleItems.length > 0 ? 
+                        Math.round((matchScore / recycleItems.length) * 100) : 0
+                };
+            });
+
+            // Sort by match score (highest first), then by name
+            centres.sort((a, b) => {
+                if (b.matchScore !== a.matchScore) {
+                    return b.matchScore - a.matchScore;
+                }
+                return a.name.localeCompare(b.name);
+            });
+
+            // Optionally filter out centers with very low match scores
+            // centres = centres.filter(centre => centre.matchScore > 0);
+        }
+
+        res.status(200).json({
+            success: true,
+            count: centres.length,
+            searchCriteria: {
+                district,
+                city: city || null,
+                recycleItems: recycleItems.length > 0 ? recycleItems : null
+            },
+            centres
+        });
+
+    } catch (error) {
+        console.error('Error getting suggested centres:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to get suggested centres',
+            error: error.message
+        });
     }
 };
