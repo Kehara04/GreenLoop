@@ -29,6 +29,9 @@ import RecycleForm from './components/wasteManagement/pages/RecycleForm';
 import Reuse from './components/wasteManagement/pages/reuse';
 import RecycleCentersPage from './components/wasteManagement/pages/RecycleCentersPage';
 
+//Events Page
+import Events from './components/analysis_event_management/Events'
+
 // Utility Pages
 const Unauthorized = () => (
   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -141,19 +144,24 @@ const AppContent = () => {
   </ProtectedRoute>
 } />
 
-{/* IMPORTANT: This route name should match what you use in navigate() */}
-<Route path="/recycle-centers" element={<RecycleCentersPage />} />
+          {/* IMPORTANT: This route name should match what you use in navigate() */}
+          <Route path="/recycle-centers" element={<RecycleCentersPage />} />
           
           {/* Alternative route names (if you want to support both) */}
           <Route path="/recycle-centres" element={<RecycleCentersPage />} />
 
+          <Route path="/events" element={
+  <ProtectedRoute roles={['customer','admin','recycleCentre']}>
+    <Events />
+  </ProtectedRoute>
+} />
         
 
         <Route path="/reuse" element={
-          <protectedRoute roles={['customer', 'admin']}>
+          <ProtectedRoute roles={['customer', 'admin']}>
             <Reuse />
          
-          </protectedRoute>
+          </ProtectedRoute>
         } />
 
 
