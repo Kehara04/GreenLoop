@@ -174,3 +174,19 @@ exports.getCustomerNameById = async(req, res) => {
         res.status(500).json(error);
     }
 };
+
+exports.updateCustomerPoints = async (req, res) => {
+    try {
+      const id = Number(req.query.id); // user_id (number)
+      const delta = Number(req.body.points || 0);
+      const user = await User.findOne({ user_id: id, role: 'customer' });
+      if (!user) return res.status(404).json({ message: 'Customer not found' });
+  
+      if (delta >= 0) await user.addPoints(delta, null, 'Manual adjustment (+)');
+      else await user.removePoints(-delta, null, 'Manual adjustment (-)');
+  
+      res.json({ message: 'Points updated successfully', totalPoints: user.totalPoints, user_level: user.user_level });
+    } catch (err) {
+      res.status(500).json({ message: 'Server error', error: err.message });
+    }
+  };

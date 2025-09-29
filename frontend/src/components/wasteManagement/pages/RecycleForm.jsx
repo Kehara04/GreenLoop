@@ -97,56 +97,109 @@ const RecycleSystem = () => {
     return getTotalQuantity(); // 1 point per unit as per backend logic
   };
 
+  // const handleSubmit = async () => {
+  //   if (!formData.location.district || !formData.location.city) {
+  //     setError('Please select district and city');
+  //     return;
+  //   }
+    
+  //   if (getTotalQuantity() === 0) {
+  //     setError('Please enter quantity for at least one category');
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   setError('');
+    
+  //   try {
+  //     const token = localStorage.getItem('token');
+      
+  //     const response = await fetch("http://localhost:5000/api/recycle", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": `Bearer ${token}`
+  //       },
+  //       body: JSON.stringify(formData)
+  //     });
+
+  //     let result = {};
+  //     try {
+  //       result = await response.json();
+  //     } catch {
+  //       // ignore if no JSON
+  //     }
+
+  //     if (response.ok && result.success) {
+  //       setSubmittedData(result.data);
+  //       setCurrentPage('summary');
+  //       navigate('/recycle-form/summary', { 
+  //         state: { formData: result.data },
+  //         replace: true 
+  //       });
+  //     } else {
+  //       setError(result.message || 'Error submitting form');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error submitting form:', error);
+  //     setError('Error submitting form. Please check your connection and try again.');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async () => {
     if (!formData.location.district || !formData.location.city) {
       setError('Please select district and city');
       return;
     }
-    
     if (getTotalQuantity() === 0) {
       setError('Please enter quantity for at least one category');
       return;
     }
-
+  
     setLoading(true);
     setError('');
-    
+  
     try {
       const token = localStorage.getItem('token');
-      
-      const response = await fetch("http://localhost:5000/api/recycle", {
-        method: "POST",
+  
+      const response = await fetch('http://localhost:5000/api/recycle', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
-
+  
       let result = {};
-      try {
-        result = await response.json();
-      } catch {
-        // ignore if no JSON
-      }
-
-      if (response.ok && result.success) {
-        setSubmittedData(result.data);
+      try { result = await response.json(); } catch {}
+  
+      if (response.ok) {
+        // backend returns { message, form, profile }
+        const payload = result.form || result.data || result;
+        if (!payload) throw new Error('No form payload returned from server');
+  
+        setSubmittedData(payload);
         setCurrentPage('summary');
-        navigate('/recycle-form/summary', { 
-          state: { formData: result.data },
-          replace: true 
+  
+        // navigate to the summary page and pass form data
+        navigate('/recycle-form/summary', {
+          state: { formData: payload },
+          replace: true,
         });
       } else {
         setError(result.message || 'Error submitting form');
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    } catch (err) {
+      console.error('Error submitting form:', err);
       setError('Error submitting form. Please check your connection and try again.');
     } finally {
       setLoading(false);
     }
   };
+  
 
   const navigateToRecycleCenters = () => {
     // Build accepts list (labels only, for query-string fallback)
