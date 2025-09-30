@@ -923,3 +923,169 @@ exports.deleteRecycleForm = async (req, res) => {
   }
 };
 
+
+// ... keep ALL your existing exports above ...
+
+/* =======================
+ *       ADMIN STATS
+ * ======================= */
+
+// GET /api/recycle/admin/overview
+// KPIs + by-district
+exports.getAdminOverview = async (_req, res) => {
+  try {
+    const [totals, byDistrictAgg, userCount, activeUsers] = await Promise.all([
+      RecycleForm.aggregate([
+        {
+          $group: {
+            _id: null,
+            totalForms: { $sum: 1 },
+            totalKg: { $sum: '$totalQuantity' },
+            totalPoints: { $sum: '$pointsEarned' }
+          }
+        }
+      ]),
+      RecycleForm.aggregate([
+        {
+          $group: {
+            _id: '$location.district',
+            totalKg: { $sum: '$totalQuantity' },
+            forms: { $sum: 1 }
+          }
+        },
+        { $sort: { totalKg: -1 } }
+      ]),
+      User.countDocuments({}),
+      User.countDocuments({ userStatus: 'active' })
+    ]);
+
+    const t = totals[0] || { totalForms: 0, totalKg: 0, totalPoints: 0 };
+    res.json({
+      kpis: {
+        totalForms: t.totalForms,
+        totalKg: t.totalKg,
+        totalPoints: t.totalPoints,
+        totalUsers: userCount,
+        activeUsers
+      },
+      byDistrict: byDistrictAgg
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+// GET /api/recycle/admin/by-month
+exports.getAdminByMonth = async (_req, res) => {
+  try {
+    const byMonth = await RecycleForm.aggregate([
+      {
+        $group: {
+          _id: { y: { $year: '$createdAt' }, m: { $month: '$createdAt' } },
+          totalKg: { $sum: '$totalQuantity' },
+          totalPoints: { $sum: '$pointsEarned' },
+          forms: { $sum: 1 }
+        }
+      },
+      { $sort: { '_id.y': 1, '_id.m': 1 } }
+    ]);
+
+    // format to {monthLabel, totalKg, totalPoints, forms}
+    const fmt = byMonth.map((r) => {
+      const m = r._id.m.toString().padStart(2, '0');
+      return {
+        month: `${r._id.y}-${m}`,
+        totalKg: r.totalKg,
+        totalPoints: r.totalPoints,
+        forms: r.forms
+      };
+    });
+
+    res.json(fmt);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+// GET /api/recycle/admin/by-category
+exports.getAdminByCategory = async (_req, res) => {
+  try {
+    const byCategory = await RecycleForm.aggregate([
+      {
+        $group: {
+          _id: null,
+          metal: { $sum: '$categories.metal' },
+          plastic: { $sum: '$categories.plastic' },
+          polythene: { $sum: '$categories.polythene' },
+          eWaste: { $sum: '$categories.eWaste' },
+          clothes: { $sum: '$categories.clothes' },
+          paper: { $sum: '$categories.paper' },
+          regiform: { $sum: '$categories.regiform' }
+        }
+      }
+    ]);
+    res.json(byCategory[0] || {});
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+// GET /api/recycle/admin/recent-forms?limit=10
+exports.getAdminRecentForms = async (req, res) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 10, 100);
+    const forms = await RecycleForm.find({})
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean();
+
+    // attach user basic info
+    const usersMap = new Map();
+    for (const f of forms) {
+      if (!usersMap.has(f.userId)) {
+        const u = await User.findOne({ user_id: Number(f.userId) })
+          .select('firstName lastName email user_id')
+          .lean();
+        usersMap.set(f.userId, u || null);
+      }
+      f.user = usersMap.get(f.userId);
+    }
+
+    res.json(forms);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
+
+// GET /api/recycle/admin/top-users?limit=5
+exports.getAdminTopUsers = async (req, res) => {
+  try {
+    const limit = Math.min(Number(req.query.limit) || 5, 50);
+
+    // Leaderboard by totalPoints (from User doc)
+    const users = await User.find({ role: 'customer' })
+      .select('firstName lastName email user_id totalPoints user_level')
+      .sort({ totalPoints: -1 })
+      .limit(limit)
+      .lean();
+
+    // Also compute totalKg per user from forms
+    const byUserKg = await RecycleForm.aggregate([
+      { $group: { _id: '$userId', totalKg: { $sum: '$totalQuantity' }, forms: { $sum: 1 } } }
+    ]);
+    const kgMap = new Map(byUserKg.map((r) => [r._id, r]));
+
+    const out = users.map((u) => {
+      const kg = kgMap.get(String(u.user_id));
+      return {
+        ...u,
+        totalKg: kg?.totalKg || 0,
+        forms: kg?.forms || 0
+      };
+    });
+
+    res.json(out);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+};
