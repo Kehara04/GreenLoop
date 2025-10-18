@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, ArrowLeft, Sparkles, Phone, Info, Recycle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const EventsPage = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -78,11 +79,20 @@ const EventsPage = () => {
     });
   };
 
+  // const handleBack = () => {
+  //   if (selectedEvent) {
+  //     setSelectedEvent(null);
+  //   } else {
+  //     console.log('Navigate back to previous page');
+  //   }
+  // };
+  const navigate = useNavigate();
+
   const handleBack = () => {
     if (selectedEvent) {
       setSelectedEvent(null);
     } else {
-      console.log('Navigate back to previous page');
+      navigate('/dashboard'); 
     }
   };
 

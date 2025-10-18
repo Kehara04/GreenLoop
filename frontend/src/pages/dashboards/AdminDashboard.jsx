@@ -760,7 +760,7 @@ const AdminDashboard = () => {
                   <div className="text-right">
                     <div className="text-sm font-semibold text-gray-900">{(u.totalKg || 0).toFixed(2)} kg</div>
                     <div className="text-xs text-gray-600">{u.forms} forms</div>
-                    <div className="text-xs text-green-700 font-bold">{u.totalPoints} pts</div>
+                    <div className="text-xs text-green-700 font-bold">{u.totalPoints.toFixed(2)} pts</div>
                   </div>
                 </div>
               ))}
@@ -810,46 +810,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* System Alerts (kept) */}
-          <div className="bg-white/95 backdrop-blur-md rounded-lg shadow-xl border border-white/30 p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">System Alerts</h2>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-medium text-yellow-800">Reminder</h3>
-                  <p className="text-sm text-yellow-700 mt-1">
-                    Review pending recycle forms and update statuses.
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <Activity className="w-5 h-5 text-blue-600 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-medium text-blue-800">System Status</h3>
-                  <p className="text-sm text-blue-700 mt-1">All services operational</p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3 p-4 bg-green-50 rounded-lg border border-green-200">
-                <Recycle className="w-5 h-5 text-green-600 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-medium text-green-800">Daily Impact</h3>
-                  <p className="text-sm text-green-700 mt-1">
-                    {(kpis.totalKg || 0).toFixed(2)} kg collected overall
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                <Bell className="w-5 h-5 text-purple-600 mt-0.5" />
-                <div>
-                  <h3 className="text-sm font-medium text-purple-800">Weekly Reminders</h3>
-                  <p className="text-sm text-purple-700 mt-1">
-                    Encourage customers to log recycling forms this week.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>

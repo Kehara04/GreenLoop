@@ -1566,7 +1566,7 @@ const CustomerDashboard = () => {
   const statsCards = [
     {
       name: 'Eco Points',
-      value: loading ? '...' : totalPoints,
+      value: loading ? '...' : totalPoints.toFixed(2),
       icon: Leaf,
       color: 'text-green-600 bg-green-100',
       change: '',
