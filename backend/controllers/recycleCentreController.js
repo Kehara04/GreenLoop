@@ -373,10 +373,11 @@ exports.getCentresByArea = async (req, res) => {
             };
         }
 
-        const centres = await RecycleCentre.find(query).select('-password').sort({ 
-            'location.city': city ? 1 : 0, // Same city first
-            name: 1 
-        });
+        const sortObj = { name: 1 };
+        if (city) {
+            sortObj['location.city'] = 1;
+        }
+        const centres = await RecycleCentre.find(query).select('-password').sort(sortObj);
 
         // If no exact city match and city was provided, try broader district search
         let alternateCentres = [];
