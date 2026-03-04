@@ -1,0 +1,41 @@
+name: k6 Load Test CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install backend dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Start backend server
+        run: |
+          cd backend
+          npm start &
+          sleep 15
+
+      - name: Run k6 Load Test (Docker)
+        run: |
+          docker run --rm \
+            --add-host=host.docker.internal:host-gateway \
+            -e BASE_URL=http://host.docker.internal:5000 \
+            -e EMAIL=${{ secrets.TEST_EMAIL }} \
+            -e PASSWORD=${{ secrets.TEST_PASSWORD }} \
+            -v ${{ github.workspace }}/backend/k6-tests:/scripts \
+            grafana/k6 run /scripts/mern-load-test.js
