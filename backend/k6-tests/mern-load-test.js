@@ -21,8 +21,8 @@ const API_PATH = __ENV.API_PATH || "/api";
 const USERS_PATH = __ENV.USERS_PATH || "/users";
 
 // Credentials to login (make sure this user exists and has role: admin OR customer)
-const EMAIL = __ENV.EMAIL || "admin@cgh.lk";
-const PASSWORD = __ENV.PASSWORD || "12345678";
+const EMAIL = __ENV.EMAIL || "kehara@gmail.com";
+const PASSWORD = __ENV.PASSWORD || "123456";
 
 // Optional: use role header checks
 const EXPECT_ROLE = __ENV.EXPECT_ROLE || ""; // e.g. "admin" or "customer"
