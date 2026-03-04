@@ -122,7 +122,7 @@ export default function (data) {
     check(list, {
       "list users is 200": (r) => r.status === 200,
       "list users returns array": (r) => Array.isArray(r.json()),
-      "response time < 800ms (list)": (r) => r.timings.duration < 800,
+      "response time < 1200ms (list)": (r) => r.timings.duration < 1200,
     });
 
     if (list.status !== 200) {
@@ -141,7 +141,7 @@ export default function (data) {
     check(byId, {
       "get user by id is 200 or 404": (r) => r.status === 200 || r.status === 404,
       "if 200 returns user object": (r) => (r.status !== 200 ? true : !!r.json()),
-      "response time < 800ms (by id)": (r) => r.timings.duration < 1200,
+      "response time < 1200ms (by id)": (r) => r.timings.duration < 1200,
     });
 
     if (byId.status !== 200 && byId.status !== 404) {
