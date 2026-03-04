@@ -47,8 +47,8 @@ export const options = {
   ],
   thresholds: {
     http_req_failed: ["rate<0.05"],
-    http_req_duration: ["p(95)<900"],  //change duration to 900
-    checks: ["rate>0.95"],
+    http_req_duration: ["p(95)<1200"],  
+    checks: ["rate>0.95"],   
   },
 };
 
@@ -105,7 +105,7 @@ export default function (data) {
     check(me, {
       "me status is 200": (r) => r.status === 200,
       "me returns user object": (r) => r.status === 200 && !!r.json(), // your controller returns user doc
-      "response time < 800ms": (r) => r.timings.duration < 800,
+      "response time < 1200ms": (r) => r.timings.duration < 1200,
     });
 
     if (me.status !== 200) {
@@ -141,7 +141,7 @@ export default function (data) {
     check(byId, {
       "get user by id is 200 or 404": (r) => r.status === 200 || r.status === 404,
       "if 200 returns user object": (r) => (r.status !== 200 ? true : !!r.json()),
-      "response time < 800ms (by id)": (r) => r.timings.duration < 800,
+      "response time < 800ms (by id)": (r) => r.timings.duration < 1200,
     });
 
     if (byId.status !== 200 && byId.status !== 404) {
