@@ -247,4 +247,16 @@ exports.deleteUser = async (req, res) => {
     }
 };
 
+exports.cleanupTestData = async (req, res) => {
+    try {
+      await User.deleteMany({ email: /testuser/i });
+  
+      res.status(200).json({
+        message: "Test data cleaned successfully",
+      });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  };
+
   
