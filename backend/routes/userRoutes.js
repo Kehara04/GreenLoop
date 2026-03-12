@@ -22,7 +22,9 @@ router.post('/forgotpassword', userController.forgotPassword);
 
 router.post('/reset-password/:token', userController.resetPassword);
 
-router.delete("/deleteuser", userController.deleteUser)
+router.delete("/deleteuser", userController.deleteUser);
+
+router.delete("/test/cleanup", userController.cleanupTestData);
 
 
 router.get('/admin-dashboard', authMiddleware(['admin']), (req, res) => {
