@@ -110,7 +110,9 @@ export function teardown(data) {
   console.log("✅ CI/CD demo finished successfully");
 }
 
+
 export function handleSummary(data) {
+  console.log("📄 Writing CI/CD summary file...");
   return {
     stdout: textSummary(data, { indent: " ", enableColors: true }),
     "/scripts/ci-cd-summary.json": JSON.stringify(data, null, 2),

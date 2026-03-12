@@ -1,3 +1,46 @@
+# # # # name: k6 Load Test CI
+
+# # # # on:
+# # # #   push:
+# # # #     branches:
+# # # #       - main
+# # # #   pull_request:
+
+# # # # jobs:
+# # # #   load-test:
+# # # #     runs-on: ubuntu-latest
+
+# # # #     steps:
+# # # #       - name: Checkout repository
+# # # #         uses: actions/checkout@v3
+
+# # # #       - name: Setup Node.js
+# # # #         uses: actions/setup-node@v4
+# # # #         with:
+# # # #           node-version: 18
+
+# # # #       - name: Install backend dependencies
+# # # #         run: |
+# # # #           cd backend
+# # # #           npm install
+
+# # # #       - name: Start backend server
+# # # #         run: |
+# # # #           cd backend
+# # # #           npm start &
+# # # #           sleep 15
+
+# # # #       - name: Run k6 Load Test (Docker)
+# # # #         run: |
+# # # #           docker run --rm \
+# # # #             --add-host=host.docker.internal:host-gateway \
+# # # #             -e BASE_URL=http://host.docker.internal:5000 \
+# # # #             -e EMAIL=${{ secrets.TEST_EMAIL }} \
+# # # #             -e PASSWORD=${{ secrets.TEST_PASSWORD }} \
+# # # #             -v ${{ github.workspace }}/backend/k6-tests:/scripts \
+# # # #             grafana/k6 run /scripts/mern-load-test.js
+
+
 # # # name: k6 Load Test CI
 
 # # # on:
@@ -38,8 +81,7 @@
 # # #             -e EMAIL=${{ secrets.TEST_EMAIL }} \
 # # #             -e PASSWORD=${{ secrets.TEST_PASSWORD }} \
 # # #             -v ${{ github.workspace }}/backend/k6-tests:/scripts \
-# # #             grafana/k6 run /scripts/mern-load-test.js
-
+# # #             grafana/k6 run /scripts/ci-cd-demo.js
 
 # # name: k6 Load Test CI
 
@@ -55,7 +97,7 @@
 
 # #     steps:
 # #       - name: Checkout repository
-# #         uses: actions/checkout@v3
+# #         uses: actions/checkout@v4
 
 # #       - name: Setup Node.js
 # #         uses: actions/setup-node@v4
@@ -73,7 +115,7 @@
 # #           npm start &
 # #           sleep 15
 
-# #       - name: Run k6 Load Test (Docker)
+# #       - name: Run k6 CI/CD Demo Test
 # #         run: |
 # #           docker run --rm \
 # #             --add-host=host.docker.internal:host-gateway \
@@ -82,6 +124,12 @@
 # #             -e PASSWORD=${{ secrets.TEST_PASSWORD }} \
 # #             -v ${{ github.workspace }}/backend/k6-tests:/scripts \
 # #             grafana/k6 run /scripts/ci-cd-demo.js
+
+# #       - name: Upload k6 summary artifact
+# #         uses: actions/upload-artifact@v4
+# #         with:
+# #           name: k6-ci-summary
+# #           path: backend/k6-tests/ci-cd-summary.json
 
 # name: k6 Load Test CI
 
@@ -125,7 +173,12 @@
 #             -v ${{ github.workspace }}/backend/k6-tests:/scripts \
 #             grafana/k6 run /scripts/ci-cd-demo.js
 
+#       - name: Check generated files
+#         run: |
+#           ls -la backend/k6-tests
+
 #       - name: Upload k6 summary artifact
+#         if: always()
 #         uses: actions/upload-artifact@v4
 #         with:
 #           name: k6-ci-summary
@@ -175,7 +228,10 @@ jobs:
 
       - name: Check generated files
         run: |
+          echo "Listing backend/k6-tests"
           ls -la backend/k6-tests
+          echo "Trying to read ci-cd-summary.json"
+          cat backend/k6-tests/ci-cd-summary.json || echo "File not found"
 
       - name: Upload k6 summary artifact
         if: always()
@@ -183,3 +239,4 @@ jobs:
         with:
           name: k6-ci-summary
           path: backend/k6-tests/ci-cd-summary.json
+          if-no-files-found: error
