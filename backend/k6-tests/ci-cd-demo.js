@@ -184,3 +184,5 @@ export function teardown(data) {
   console.log(`⏰ Pipeline test started at: ${data.startedAt}`);
   console.log("✅ CI/CD demo finished successfully");
 }
+
+//CI-CD pipelines
